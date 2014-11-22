@@ -15,9 +15,15 @@ class PlayController(controller.CementBaseController):
   def default(self):
     pass
 
-  @controller.expose()
+  @controller.expose(aliases=['movies','film','films'],
+    help='Play a movie. You must provide a movie id number, e.g.: play movie 127')
   def movie(self):
-    movie_id = self.app.pargs.positional_arguments[0]
+    try:
+      movie_id = self.app.pargs.positional_arguments[0]
+    except IndexError, e:
+      self.app.log.error('You must provide a movie id number, e.g.: play movie 127')
+      return False
+
     try:
       movie = [movie_details for movie_details in self.app.send_rpc_request(list_movies())['movies'] 
         if str(movie_details['movieid']) == movie_id][0]
@@ -29,8 +35,9 @@ class PlayController(controller.CementBaseController):
     self.app.send_rpc_request(play_movie(movie_id))
 
 
-  @controller.expose(aliases=['episode', 'tvepisode'])
-  def tv_episode(self):
+  @controller.expose(aliases=['tvepisode', 'tv_episode'],
+    help='Play a movie. You must provide an episode id number, e.g.: play episode 1340')
+  def episode(self):
     tv_episode_id = self.app.pargs.positional_arguments[0]
     try:
       episode = [episode_details for episode_details in self.app.send_rpc_request(list_episodes())['episodes'] 
