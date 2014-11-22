@@ -14,22 +14,25 @@ class ListController(controller.CementBaseController):
   def default(self):
     pass
 
-  @controller.expose()
+  @controller.expose(aliases=['films', 'movie', 'film'], help='Show a list of every movie in the system.')
   def movies(self):
     movies = self.app.send_rpc_request(list_movies())['movies']
     for movie in sorted(movies, key = lambda movie: movie['movieid']):
       print "{0}\t{1}".format(movie['movieid'], movie['label'].encode('utf8'))
 
 
-  @controller.expose(aliases=['shows','tv','tvshows'])
-  def tv_shows(self):
+  @controller.expose(aliases=['show','tv_show','tv_shows','tv','tvshows','tvshow'], 
+    help='Show a list of every TV show in the system.')
+  def shows(self):
     for show in self._retrieve_sorted_shows():
       print "Show:\t{0}\t{1}".format(show['tvshowid'], show['label'].encode('utf8'))
 
 
 
-  @controller.expose(aliases=['episodes', 'tvepisodes'])
-  def tv_episodes(self):
+  @controller.expose(aliases=['tv_episodes', 'tvepisodes','episode','tvepisode'], 
+    help='Show a list of TV episodes. If a show id number is provided (e.g. list episodes 152) then only episodes '
+    'of that show will be listed; if the id number is ommitted, episodes will be listed for all shows in the system.')
+  def episodes(self):
     """The user may optionally provide a show id to restrict the list"""
     show_id = None
     try:
