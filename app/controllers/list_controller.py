@@ -20,7 +20,7 @@ class ListController(controller.CementBaseController):
         print "{0} - {1}".format(movie['movieid'], movie['label'].encode('utf8'))
 
 
-  @controller.expose(aliases=['shows'])
+  @controller.expose(aliases=['shows','tv','tvshows'])
   def tv_shows(self):
     shows = self.app.send_rpc_request(list_tv_shows())['result']['tvshows']
     for show in sorted(shows, key = lambda show: show['tvshowid']):

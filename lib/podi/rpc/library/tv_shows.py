@@ -5,6 +5,5 @@ def list_tv_shows():
       "id": "list_shows", 
       "params": {
           "properties": ["file"],
-          "filter": filter
         },
     }
