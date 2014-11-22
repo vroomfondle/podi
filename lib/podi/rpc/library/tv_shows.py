@@ -1,9 +1,4 @@
-def list_tv_shows(id = None):
-  if id is None:
-    filter = {}
-  else:
-    filter = {"field": "tvshowid", "operator": "is", "value": "{0}".format(id)}
-
+def list_tv_shows():
   return {
       "jsonrpc": "2.0",
       "method": "VideoLibrary.GetTVShows", 

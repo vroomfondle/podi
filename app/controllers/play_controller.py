@@ -18,8 +18,9 @@ class PlayController(controller.CementBaseController):
   def movie(self):
     id = self.app.pargs.positional_arguments[0]
     try:
-      movie = self.app.send_rpc_request(list_movies(id))['result']['movies'][0]
-    except AttributeError, e:
+      movie = [movie_details for movie_details in self.app.send_rpc_request(list_movies())['result']['movies'] 
+        if str(movie_details['movieid']) == id][0]
+    except IndexError, e:
       self.app.log.error("Movie {0} not found.".format(id))
       return False
     # Movie exists if no AttributeError was thrown; try to play it
