@@ -15,7 +15,7 @@ class ListController(controller.CementBaseController):
 
   @controller.expose()
   def movies(self):
-    movies = self.app.send_rpc_request(list_movies())['result']['movies']
+    movies = self.app.send_rpc_request(list_movies())['movies']
     for movie in sorted(movies, key = lambda movie: movie['movieid']):
       print "{0}\t{1}".format(movie['movieid'], movie['label'].encode('utf8'))
 
@@ -39,13 +39,13 @@ class ListController(controller.CementBaseController):
 
 
   def _retrieve_sorted_shows(self):
-    shows = self.app.send_rpc_request(list_tv_shows())['result']['tvshows']
+    shows = self.app.send_rpc_request(list_tv_shows())['tvshows']
     for show in sorted(shows, key = lambda show: show['tvshowid']):
       yield show
 
 
   def _retrieve_sorted_episodes(self, tv_show_id):
-    episodes =  self.app.send_rpc_request(list_episodes(tv_show_id))['result']['episodes']
+    episodes =  self.app.send_rpc_request(list_episodes(tv_show_id)).get('episodes', [])
     for episode in sorted(
       episodes,
       key = lambda episode: episode['episodeid']):

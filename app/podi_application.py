@@ -22,13 +22,19 @@ class PodiApplication(foundation.CementApp):
     base_controller = PodiBase
     config_files = ["%s/.podi.conf" % expanduser("~")]
 
+
+
   def  __init__(self):
     super(PodiApplication, self).__init__()
+
+
 
   def run(self):
     self.connection = HTTPConnection(self.config.get('connection', 'host'), 
       self.config.get('connection', 'port'))
     super(PodiApplication, self).run()
+
+
 
   def send_rpc_request(self, request):
     """
@@ -44,5 +50,5 @@ class PodiApplication(foundation.CementApp):
     if response.get('error', False):
       # Found an error - throw exception
       raise JSONResponseError(response)
-    return response
+    return response.get('result', None)
     

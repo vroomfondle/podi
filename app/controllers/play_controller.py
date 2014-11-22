@@ -19,7 +19,7 @@ class PlayController(controller.CementBaseController):
   def movie(self):
     movie_id = self.app.pargs.positional_arguments[0]
     try:
-      movie = [movie_details for movie_details in self.app.send_rpc_request(list_movies())['result']['movies'] 
+      movie = [movie_details for movie_details in self.app.send_rpc_request(list_movies())['movies'] 
         if str(movie_details['movieid']) == movie_id][0]
     except IndexError, e:
       self.app.log.error("Movie {0} not found.".format(movie_id))
@@ -33,7 +33,7 @@ class PlayController(controller.CementBaseController):
   def tv_show(self):
     tv_show_id = self.app.pargs.positional_arguments[0]
     try:
-      tvshow = [tvshow_details for tvshow_details in self.app.send_rpc_request(list_tv_shows())['result']['tvshows'] 
+      tvshow = [tvshow_details for tvshow_details in self.app.send_rpc_request(list_tv_shows())['tvshows'] 
         if str(tvshow_details['tvshowid']) == tv_show_id][0]
     except IndexError, e:
       self.app.log.error("Movie {0} not found.".format(id))
