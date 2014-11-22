@@ -44,4 +44,5 @@ class PodiApplication(foundation.CementApp):
     if response.get('error', False):
       # Found an error - throw exception
       raise JSONResponseError(response)
+    return response
     
