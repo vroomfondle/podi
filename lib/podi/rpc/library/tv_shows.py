@@ -10,13 +10,15 @@ def list_tv_shows():
 
 
 
-def list_episodes(tv_show_id):
-  return {
+def list_episodes(tv_show_id = None):
+  request = {
       "jsonrpc": "2.0",
       "method": "VideoLibrary.GetEpisodes", 
       "id": "list_episodes_{0}".format(tv_show_id), 
       "params": {
           "properties": ["file"],
-          "tvshowid": int(tv_show_id)
         },
   }
+  if tv_show_id is not None:
+    request["params"]["tvshowid"] = int(tv_show_id)
+  return request

@@ -20,12 +20,12 @@ def play_movie(movie_id):
       "id": "play_movie_{0}".format(movie_id)
   }
 
-def play_tv_show(tv_show_id):
+def play_episode(episode_id):
   return {
       "jsonrpc": "2.0",
       "method": "Player.Open",
       "params": {
-            "item": {"tvshowid": int(tv_show_id)}
+            "item": {"episodeid": int(episode_id)}
       },
-      "id": "play_tv_show_{0}".format(tv_show_id)
+      "id": "play_tv_episode_{0}".format(episode_id)
   }

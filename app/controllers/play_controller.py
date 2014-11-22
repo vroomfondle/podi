@@ -1,7 +1,7 @@
 from cement.core import controller
 from lib.podi.rpc.library.movies import list_movies
-from lib.podi.rpc.library.tv_shows import list_tv_shows
-from lib.podi.rpc.player import play_file, play_movie, play_tv_show
+from lib.podi.rpc.library.tv_shows import list_episodes
+from lib.podi.rpc.player import play_file, play_movie, play_episode
 
 class PlayController(controller.CementBaseController):
   class Meta:
@@ -29,15 +29,16 @@ class PlayController(controller.CementBaseController):
     self.app.send_rpc_request(play_movie(movie_id))
 
 
-  @controller.expose(aliases=['tv', 'tvshow', 'show'])
-  def tv_show(self):
-    tv_show_id = self.app.pargs.positional_arguments[0]
+  @controller.expose(aliases=['episode', 'tvepisode'])
+  def tv_episode(self):
+    tv_episode_id = self.app.pargs.positional_arguments[0]
     try:
-      tvshow = [tvshow_details for tvshow_details in self.app.send_rpc_request(list_tv_shows())['tvshows'] 
-        if str(tvshow_details['tvshowid']) == tv_show_id][0]
+      episode = [episode_details for episode_details in self.app.send_rpc_request(list_episodes())['episodes'] 
+        if str(episode_details['episodeid']) == tv_episode_id][0]
     except IndexError, e:
-      self.app.log.error("Movie {0} not found.".format(id))
+      self.app.log.error("Episode {0} not found.".format(episode_id))
       return False
     # Movie exists if no AttributeError was thrown; try to play it
-    self.app.log.info("Playing tvshow {0}: {1} ({2})".format(id, tvshow['label'], tvshow['file']))
-    self.app.send_rpc_request(play_tv_show(tv_show_id))
+    self.app.log.info("Playing episode {0}: {1} ({2})".format(tv_episode_id, episode['label'], episode['file']))
+    self.app.send_rpc_request(play_episode(tv_episode_id))
+  
