@@ -2,6 +2,7 @@ from cement.core import controller
 from lib.podi.rpc.library.movies import list_movies
 from lib.podi.rpc.library.tv_shows import list_episodes
 from lib.podi.rpc.player import play_file, play_movie, play_episode
+import argparse
 
 class PlayController(controller.CementBaseController):
   class Meta:
@@ -9,7 +10,7 @@ class PlayController(controller.CementBaseController):
     description = 'Trigger playback of a given media item'
     stacked_on = 'base'
     stacked_type = 'nested'
-    arguments = [(['positional_arguments'], dict(action = 'store', nargs = '*')),]
+    arguments = [(['positional_arguments'], dict(action = 'store', nargs = '*', help=argparse.SUPPRESS),),]
 
   @controller.expose(hide=True)
   def default(self):
