@@ -8,6 +8,7 @@ class ListController(controller.CementBaseController):
     description = 'Retrieve and display lists of media items'
     stacked_on = 'base'
     stacked_type = 'nested'
+    arguments = [(['positional_arguments'], dict(action = 'store', nargs = '*')),]
 
   @controller.expose(hide=True)
   def default(self):
@@ -29,7 +30,14 @@ class ListController(controller.CementBaseController):
 
   @controller.expose(aliases=['episodes', 'tvepisodes'])
   def tv_episodes(self):
-    for show in self._retrieve_sorted_shows():
+    """The user may optionally provide a show id to restrict the list"""
+    show_id = None
+    try:
+      show_id = self.app.pargs.positional_arguments[0]
+    except IndexError:
+      self.app.log.debug("Show id not provided")
+
+    for show in self._retrieve_sorted_shows(show_id):
       print "Show:\t{0}\t{1}".format(show['tvshowid'], show['label'].encode('utf8'))
       for episode in self._retrieve_sorted_episodes(show['tvshowid']):
         print "\tEpisode:\t{0}\t{1}".format(
@@ -38,10 +46,11 @@ class ListController(controller.CementBaseController):
           )
 
 
-  def _retrieve_sorted_shows(self):
+  def _retrieve_sorted_shows(self, tv_show_id = None):
     shows = self.app.send_rpc_request(list_tv_shows())['tvshows']
     for show in sorted(shows, key = lambda show: show['tvshowid']):
-      yield show
+      if (tv_show_id is None) or int(show['tvshowid']) == int(tv_show_id): 
+        yield show
 
 
   def _retrieve_sorted_episodes(self, tv_show_id):
