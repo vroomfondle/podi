@@ -14,3 +14,13 @@ def introspect_method(method_name):
       },
       "id": "introspect_{0}".format(method_name)
   }
+
+
+
+
+def rpc_version():
+  return {
+      "jsonrpc": "2.0",
+      "method": "JSONRPC.Version",
+      "id": "rpc_version"
+  }

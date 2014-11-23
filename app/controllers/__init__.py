@@ -5,3 +5,4 @@ from pause_controller import PauseController
 from stop_controller import StopController
 from cleanup_controller import CleanupController
 from update_controller import UpdateController
+from inspect_controller import InspectController

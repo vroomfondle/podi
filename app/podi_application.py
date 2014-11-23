@@ -1,7 +1,7 @@
 from cement.core import foundation, controller
 from httplib import HTTPConnection
 from urllib import quote
-from os.path import expanduser
+from os.path import expanduser, dirname
 from errors import JSONResponseError
 from lib.podi.rpc import rpc_version
 import json
@@ -22,6 +22,9 @@ class PodiApplication(foundation.CementApp):
     description = 'Podi'
     base_controller = PodiBase
     config_files = ["%s/.podi.conf" % expanduser("~")]
+    extensions = ['mustache']
+    output_handler = 'mustache'
+    template_dir = "{0}/views".format(dirname(__file__))
 
 
 

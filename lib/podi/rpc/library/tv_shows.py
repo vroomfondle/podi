@@ -22,3 +22,35 @@ def list_episodes(tv_show_id = None):
   if tv_show_id is not None:
     request["params"]["tvshowid"] = int(tv_show_id)
   return request
+
+
+def inspect_episode(episode_id):
+  return {
+      "jsonrpc": "2.0",
+      "method": "VideoLibrary.GetEpisodeDetails", 
+      "id": "episode_details",
+      "params": {
+          "episodeid": int(episode_id),
+          "properties": [
+              "cast", "votes", "firstaired", "season", "showtitle",
+              "rating", "writer", "title", "file",
+              "originaltitle", "productioncode", "playcount",
+              ],
+        },
+    }
+
+
+def inspect_tv_show(tv_show_id):
+  return {
+      "jsonrpc": "2.0",
+      "method": "VideoLibrary.GetTVShowDetails", 
+      "id": "tv_show_details",
+      "params": {
+          "tvshowid": int(tv_show_id),
+          "properties": [
+                "title", "cast", "votes", "mpaa", "rating",
+                "studio", "genre", "episodeguide", "tag", 
+                "originaltitle", "imdbnumber", "plot", "lastplayed",
+              ],
+        },
+    }

@@ -1,6 +1,6 @@
 from cement.core import controller
-from lib.podi.rpc.library.movies import list_movies
-from lib.podi.rpc.library.tv_shows import list_tv_shows, list_episodes
+from lib.podi.rpc.library import list_movies, inspect_movie
+from lib.podi.rpc.library import list_tv_shows, list_episodes
 import argparse
 
 class ListController(controller.CementBaseController):
