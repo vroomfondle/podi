@@ -22,7 +22,7 @@ class PodiApplication(foundation.CementApp):
     description = 'Podi'
     base_controller = PodiBase
     config_files = ["%s/.podi.conf" % expanduser("~")]
-    extensions = ['mustache']
+    extensions = ['mustache', 'json']
     output_handler = 'mustache'
     template_dir = "{0}/views".format(dirname(__file__))
 
