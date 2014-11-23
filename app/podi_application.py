@@ -12,7 +12,7 @@ class PodiBase(controller.CementBaseController):
 
   @controller.expose(hide=True, aliases=['run'])
   def default(self):
-    print 'Podi'
+    print 'Use --help to see a list of commands'
     
 
 class PodiApplication(foundation.CementApp):
