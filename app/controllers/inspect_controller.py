@@ -54,11 +54,9 @@ class InspectController(controller.CementBaseController):
         self.app.log.error("Kodi returned an 'invalid parameters' error; this tv_show may not exist?")
         return False
       else: raise e
-
     tv_show_details['tag_dict'] = self._list_to_dicts(key = 'tag', input_list = tv_show_details['tag'])
     tv_show_details['genre_dict'] = self._list_to_dicts(key = 'genre', input_list = tv_show_details['genre'])
     tv_show_details['episodes'] = self._retrieve_sorted_episodes(tv_show_id)
-
     self.app.render(tv_show_details, 'tv_show_details.m')
 
 
@@ -78,9 +76,7 @@ class InspectController(controller.CementBaseController):
         self.app.log.error("Kodi returned an 'invalid parameters' error; this episode may not exist?")
         return False
       else: raise e
-
     episode_details['writer_dict'] = self._list_to_dicts(key = 'writer', input_list = episode_details['writer'])
-
     self.app.render(episode_details, 'episode_details.m')
 
 

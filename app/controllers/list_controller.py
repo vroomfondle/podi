@@ -40,9 +40,12 @@ class ListController(controller.CementBaseController):
       self.app.log.debug("Show id not provided")
 
     for show in self._retrieve_sorted_shows(show_id):
+      episodes = []
+      for ep in self._retrieve_sorted_episodes(show['tvshowid']):
+        episodes.append(ep)
       self.app.render({'show': show, 
         'display_show?': (show_id is None),
-        'episodes': self._retrieve_sorted_episodes(show['tvshowid'])},
+        'episodes': episodes},
         'episode_list.m')
 
 
