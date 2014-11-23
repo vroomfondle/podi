@@ -40,6 +40,17 @@ def pause_unpause_player(player_id):
     "id": "play_pause",
   }
 
+def stop_player(player_id):
+  return {
+    "jsonrpc": "2.0",
+    "method": "Player.Stop",
+    "params": {
+      "playerid": int(player_id)
+    },
+    "id": "stop",
+  }
+
+
 def list_active_players():
   return {
     "jsonrpc": "2.0",
