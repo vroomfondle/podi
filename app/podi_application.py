@@ -3,6 +3,7 @@ from httplib import HTTPConnection
 from urllib import quote
 from os.path import expanduser
 from errors import JSONResponseError
+from lib.podi.rpc import rpc_version
 import json
 
 class PodiBase(controller.CementBaseController):
@@ -32,6 +33,7 @@ class PodiApplication(foundation.CementApp):
   def run(self):
     self.connection = HTTPConnection(self.config.get('connection', 'host'), 
       self.config.get('connection', 'port'))
+    self.send_rpc_request(rpc_version())
     super(PodiApplication, self).run()
 
 
