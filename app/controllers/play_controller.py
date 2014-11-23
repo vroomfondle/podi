@@ -41,7 +41,7 @@ class PlayController(controller.CementBaseController):
     try:
       tv_episode_id = self.app.pargs.positional_arguments[0]
     except IndexError, e:
-      self.app.log.error('You must provide a movie id number, e.g.: play movie 127')
+      self.app.log.error('You must provide an episode id number, e.g.: play movie 127')
       return False
 
     try:
