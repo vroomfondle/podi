@@ -1,15 +1,15 @@
 {{#originaltitle}}
-Title: {{originaltitle}} / "{{title}}"
+Title: {{{originaltitle}}} / "{{{title}}}"
 {{/originaltitle}}
 {{^originaltitle}}
-Title: {{title}}
+Title: {{{title}}}
 {{/originaltitle}}
-Tagline: {{tagline}}
-Year: {{year}}
+Tagline: {{{tagline}}}
+Year: {{{year}}}
 
 Genres: 
 {{#genre_dict}}
-  {{genre}}
+  {{{genre}}}
 {{/genre_dict}}
 {{^genre_dict}}
   No genres have been set.
@@ -17,7 +17,7 @@ Genres:
 
 Tags: 
 {{#tag_dict}}
-  {{tag}}
+  {{{tag}}}
 {{/tag_dict}}
 {{^tag_dict}}
   No tags have been set.
@@ -25,12 +25,12 @@ Tags:
 
 Cast:
 {{#cast}}
-  {{role}}: {{name}}
+  {{{role}}}: {{{name}}}
 {{/cast}}
 
 Plot:
 {{#plot}}
-  {{plot}}
+  {{{plot}}}
 {{/plot}}
 {{^plot}}
   No plot  available.
@@ -38,7 +38,7 @@ Plot:
 
 Episodes:
 {{#episodes}}
-  {{episodeid}}: {{label}}
+  {{{episodeid}}}: {{{label}}}
 {{/episodes}}
 {{^episodes}}
   No episodes.

@@ -2,14 +2,14 @@
 Title: {{originaltitle}} / "{{title}}"
 {{/originaltitle}}
 {{^originaltitle}}
-Title: {{title}}
+Title: {{{title}}}
 {{/originaltitle}}
-Tagline: {{tagline}}
-Year: {{year}}
+Tagline: {{{tagline}}}
+Year: {{{year}}}
 
 Genres: 
 {{#genre_dict}}
-  {{genre}}
+  {{{genre}}}
 {{/genre_dict}}
 {{^genre_dict}}
   No genres have been set.
@@ -17,7 +17,7 @@ Genres:
 
 Tags: 
 {{#tag_dict}}
-  {{tag}}
+  {{{tag}}}
 {{/tag_dict}}
 {{^tag_dict}}
   No tags have been set.
@@ -25,7 +25,7 @@ Tags:
 
 Writers: 
 {{#writer_dict}}
-  {{writer}}
+  {{{writer}}}
 {{/writer_dict}}
 {{^writer_dict}}
   No writers.
@@ -33,16 +33,16 @@ Writers:
 
 Cast:
 {{#cast}}
-  {{role}}: {{name}}
+  {{{role}}}: {{{name}}}
 {{/cast}}
 
 Plot:
 {{#plot}}
-  {{plot}}
+  {{{plot}}}
 {{/plot}}
 {{^plot}}
   No plot  available.
 {{/plot}}
 
-File: {{file}}
+File: {{{file}}}
 

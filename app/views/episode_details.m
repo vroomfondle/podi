@@ -2,16 +2,16 @@
 Title: {{originaltitle}} / "{{title}}"
 {{/originaltitle}}
 {{^originaltitle}}
-Title: {{title}}
+Title: {{{title}}}
 {{/originaltitle}}
 
-Tagline: {{tagline}}
-Air Date: {{firstaired}}
-Season: {{season}}
+Tagline: {{{tagline}}}
+Air Date: {{{firstaired}}}
+Season: {{{season}}}
 
 Writers:
 {{#writer_dict}}
-  {{writer}}
+  {{{writer}}}
 {{/writer_dict}}
 {{^writer_dict}}
   No writers available.
@@ -19,15 +19,15 @@ Writers:
 
 Cast:
 {{#cast}}
-  {{role}}: {{name}}
+  {{{role}}}: {{{name}}}
 {{/cast}}
 
 Plot:
 {{#plot}}
-  {{plot}}
+  {{{plot}}}
 {{/plot}}
 {{^plot}}
   No plot  available.
 {{/plot}}
 
-File: {{file}}
+File: {{{file}}}
