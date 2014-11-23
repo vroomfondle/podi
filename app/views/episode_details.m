@@ -6,7 +6,7 @@ Title: {{title}}
 {{/originaltitle}}
 
 Tagline: {{tagline}}
-Year: {{year}}
+Air Date: {{firstaired}}
 Season: {{season}}
 
 Writers:
@@ -30,4 +30,4 @@ Plot:
   No plot  available.
 {{/plot}}
 
-
+File: {{file}}
