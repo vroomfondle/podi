@@ -24,8 +24,10 @@ class ListController(controller.CementBaseController):
   @controller.expose(aliases=['show','tv_show','tv_shows','tv','tvshows','tvshow'], 
     help='Show a list of every TV show in the system.')
   def shows(self):
-    self.app.render({'shows': self._retrieve_sorted_shows()}, 'show_list.m')
-
+    shows = []
+    for show in self._retrieve_sorted_shows():
+      shows.append(show)
+    self.app.render({'shows': shows}, 'show_list.m')
 
 
   @controller.expose(aliases=['tv_episodes', 'tvepisodes','episode','tvepisode'], 
