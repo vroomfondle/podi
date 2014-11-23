@@ -15,10 +15,11 @@ class ListController(controller.CementBaseController):
   def default(self):
     pass
 
+
   @controller.expose(aliases=['films', 'movie', 'film'], help='Show a list of every movie in the system.')
   def movies(self):
     movies = self.app.send_rpc_request(list_movies())['movies']
-    self.app.render({'movies': sorted(movies, key = lambda movie: movie['movieid'])}, 'list_movies.m')
+    self.app.render({'movies': sorted(movies, key = lambda movie: movie['movieid'])}, 'movie_list.m')
 
 
   @controller.expose(aliases=['show','tv_show','tv_shows','tv','tvshows','tvshow'], 
@@ -40,7 +41,6 @@ class ListController(controller.CementBaseController):
       show_id = self.app.pargs.positional_arguments[0]
     except IndexError:
       self.app.log.debug("Show id not provided")
-
     for show in self._retrieve_sorted_shows(show_id):
       episodes = []
       for ep in self._retrieve_sorted_episodes(show['tvshowid']):
@@ -49,8 +49,6 @@ class ListController(controller.CementBaseController):
         'display_show?': (show_id is None),
         'episodes': episodes},
         'episode_list.m')
-
-
 
 
   def _retrieve_sorted_shows(self, tv_show_id = None):
