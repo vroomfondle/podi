@@ -28,7 +28,7 @@ class ListController(controller.CementBaseController):
     shows = []
     for show in self._retrieve_sorted_shows():
       shows.append(show)
-    self.app.render({'shows': shows}, 'show_list.m')
+    self.app.render({'shows': shows}, 'tv_show_list.m')
 
 
   @controller.expose(aliases=['tv_episodes', 'tvepisodes','episode','tvepisode'], 
