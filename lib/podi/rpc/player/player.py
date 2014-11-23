@@ -25,7 +25,24 @@ def play_episode(episode_id):
       "jsonrpc": "2.0",
       "method": "Player.Open",
       "params": {
-            "item": {"episodeid": int(episode_id)}
+         "item": {"episodeid": int(episode_id)}
       },
       "id": "play_tv_episode_{0}".format(episode_id)
+  }
+
+def pause_unpause_player(player_id):
+  return {
+    "jsonrpc": "2.0",
+    "method": "Player.PlayPause",
+    "params": {
+      "playerid": int(player_id)
+    },
+    "id": "play_pause",
+  }
+
+def list_active_players():
+  return {
+    "jsonrpc": "2.0",
+    "method": "Player.GetActivePlayers",
+    "id": "list_active_players",
   }
