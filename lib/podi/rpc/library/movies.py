@@ -25,7 +25,7 @@ def inspect_movie(movie_id):
           "movieid": int(movie_id),
           "properties": [
             "file", "title", "originaltitle",
-            "genre", "year", "tag", "tagline",
+            "genre", "year", "tag", "tagline", "writer",
             "director", "studio", "cast", "imdbnumber",
             "mpaa", "playcount", "rating", "plot", "plotoutline",
             "runtime", "set", "showlink", "streamdetails", "top250",
