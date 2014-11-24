@@ -6,6 +6,10 @@ Title: {{{title}}}
 {{/originaltitle}}
 Tagline: {{{tagline}}}
 Year: {{{year}}}
+Countries: 
+{{#country_dict}}
+  {{{country}}}
+{{/country_dict}}
 
 Genres: 
 {{#genre_dict}}
