@@ -35,19 +35,20 @@ class ListController(controller.CementBaseController):
 
 
   @controller.expose(aliases=['tv_episodes', 'tvepisodes','episode','tvepisode'], 
-    help='Show a list of TV episodes. If a show id number is provided (e.g. list episodes 152) then only episodes '
-    'of that show will be listed; if the id number is ommitted, episodes will be listed for all shows in the system.')
+    help='Show a list of TV episodes for a particular show. A show id number must be provided (e.g. list episodes 152).')
   def episodes(self):
-    """The user may optionally provide a show id to restrict the list"""
-    show_id = None
+    """The user must provide a show id to restrict the list"""
     try:
       show_id = self.app.pargs.positional_arguments[0]
     except IndexError:
-      self.app.log.debug("Show id not provided")
+      self.app.log.error("You must provide a show id (e.g. list episodes 152).")
+      return False
     for show in self._retrieve_sorted_shows(show_id):
       episodes = []
       for ep in self._retrieve_sorted_episodes(show['tvshowid']):
         episodes.append(ep)
+      field_widths = [('title', 36),('episodeid', 6)]
+      episodes = self._align_fields_for_display(episodes, field_widths)
       print self.app.render({'show': show, 
         'display_show?': (show_id is None),
         'episodes': episodes},

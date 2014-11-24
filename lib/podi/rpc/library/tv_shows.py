@@ -10,6 +10,7 @@ def list_tv_shows():
             "studio", "cast", "imdbnumber",
             "mpaa", "playcount", "rating", 
             "votes", "sorttitle", "dateadded",
+            "lastplayed",
           ]
         },
     }
@@ -22,7 +23,17 @@ def list_episodes(tv_show_id = None):
       "method": "VideoLibrary.GetEpisodes", 
       "id": "list_episodes_{0}".format(tv_show_id), 
       "params": {
-          "properties": ["file"],
+          "properties": [
+            "file", "title", "originaltitle",
+            "writer",  "director",
+            "cast", 
+            "rating", "playcount",
+            "votes", "dateadded",
+            "lastplayed", "resume", "runtime",
+            "productioncode", "firstaired",
+            "season", "episode",
+          ],
+          "tvshowid": int(tv_show_id),
         },
   }
   if tv_show_id is not None:
