@@ -36,6 +36,7 @@ class InspectController(controller.CementBaseController):
     movie_details['tag_dict'] = self._list_to_dicts(key = 'tag', input_list = movie_details['tag'])
     movie_details['genre_dict'] = self._list_to_dicts(key = 'genre', input_list = movie_details['genre'])
     movie_details['writer_dict'] = self._list_to_dicts(key = 'writer', input_list = movie_details['writer'])
+    movie_details['country_dict'] = self._list_to_dicts(key = 'country', input_list = movie_details['country'])
     print self.app.render(movie_details, 'movie_details.m', None).encode('utf8')
 
     
