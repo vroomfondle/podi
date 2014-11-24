@@ -24,10 +24,11 @@ Available audio streams:
 {{/audiostreams}}
 
 Current subtitle stream:
-{{#currentsubtitles}}
-  Name:         {{{name}}}
-  Language:     {{{language}}}
-{{/currentsubtitles}}
+{{#currentsubtitle}}
+  Stream {{{index}}}:
+    Name:         {{{name}}}
+    Language:     {{{language}}}
+{{/currentsubtitle}}
 
 Available subtitle streams:
 {{#subtitles}}
