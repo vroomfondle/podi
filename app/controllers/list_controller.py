@@ -19,7 +19,7 @@ class ListController(controller.CementBaseController):
   @controller.expose(aliases=['films', 'movie', 'film'], help='Show a list of every movie in the system.')
   def movies(self):
     movies = self.app.send_rpc_request(list_movies())['movies']
-    self.app.render({'movies': sorted(movies, key = lambda movie: movie['movieid'])}, 'movie_list.m')
+    print self.app.render({'movies': sorted(movies, key = lambda movie: movie['movieid'])}, 'movie_list.m', None).encode('utf8')
 
 
   @controller.expose(aliases=['show','tv_show','tv_shows','tv','tvshows','tvshow'], 
@@ -28,7 +28,7 @@ class ListController(controller.CementBaseController):
     shows = []
     for show in self._retrieve_sorted_shows():
       shows.append(show)
-    self.app.render({'shows': shows}, 'tv_show_list.m')
+    print self.app.render({'shows': shows}, 'tv_show_list.m', None).encode('utf8')
 
 
   @controller.expose(aliases=['tv_episodes', 'tvepisodes','episode','tvepisode'], 
@@ -45,10 +45,10 @@ class ListController(controller.CementBaseController):
       episodes = []
       for ep in self._retrieve_sorted_episodes(show['tvshowid']):
         episodes.append(ep)
-      self.app.render({'show': show, 
+      print self.app.render({'show': show, 
         'display_show?': (show_id is None),
         'episodes': episodes},
-        'episode_list.m')
+        'episode_list.m', None).encode('utf8')
 
 
   def _retrieve_sorted_shows(self, tv_show_id = None):

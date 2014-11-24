@@ -36,7 +36,7 @@ class InspectController(controller.CementBaseController):
     movie_details['tag_dict'] = self._list_to_dicts(key = 'tag', input_list = movie_details['tag'])
     movie_details['genre_dict'] = self._list_to_dicts(key = 'genre', input_list = movie_details['genre'])
     movie_details['writer_dict'] = self._list_to_dicts(key = 'writer', input_list = movie_details['writer'])
-    self.app.render(movie_details, 'movie_details.m')
+    print self.app.render(movie_details, 'movie_details.m', None).encode('utf8')
 
     
 
@@ -59,7 +59,7 @@ class InspectController(controller.CementBaseController):
     tv_show_details['country_dict'] = self._list_to_dicts(key = 'country', input_list = tv_show_details['country'])
     tv_show_details['genre_dict'] = self._list_to_dicts(key = 'genre', input_list = tv_show_details['genre'])
     tv_show_details['episodes'] = self._retrieve_sorted_episodes(tv_show_id)
-    self.app.render(tv_show_details, 'tv_show_details.m')
+    print self.app.render(tv_show_details, 'tv_show_details.m', None).encode('utf8')
 
 
 
@@ -79,7 +79,7 @@ class InspectController(controller.CementBaseController):
         return False
       else: raise e
     episode_details['writer_dict'] = self._list_to_dicts(key = 'writer', input_list = episode_details['writer'])
-    self.app.render(episode_details, 'episode_details.m')
+    print self.app.render(episode_details, 'episode_details.m', None).encode('utf8')
 
 
   @controller.expose(help='Show information about the currently-active media player, including available audio and subtitle streams.')
@@ -88,7 +88,7 @@ class InspectController(controller.CementBaseController):
       player_details = self.app.send_rpc_request(inspect_player(player['playerid']))
       player_details['repeat'] = (player_details['repeat'] == 'on')
       self.app.log.debug(player_details)
-      self.app.render(player_details, 'player_details.m')
+      print self.app.render(player_details, 'player_details.m', None).encode('utf8')
 
 
 

@@ -18,4 +18,4 @@ class IntrospectController(controller.CementBaseController):
   def method(self):
     method_name = self.app.pargs.positional_arguments[0]
     response = self.app.send_rpc_request(introspect_method(method_name))
-    self.app.render(response['methods'][method_name], 'method_introspection.m')
+    print self.app.render(response['methods'][method_name], 'method_introspection.m', None).encode('utf8')
