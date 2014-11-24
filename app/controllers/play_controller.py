@@ -50,7 +50,7 @@ class PlayController(controller.CementBaseController):
       self.app.send_rpc_request(play_episode(tv_episode_id))
     except JSONResponseError, e:
       if e.error_code == -32602:
-        self.app.log.error("Kodi returned an 'invalid parameters' error; this episode may not exist? Use \"inspect player\" to see a list of available streams.")
+        self.app.log.error("Kodi returned an 'invalid parameters' error; this episode may not exist? Use 'list episodes' to  see available episodes.")
         return False
       else: raise e
   
