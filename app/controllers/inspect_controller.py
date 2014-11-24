@@ -57,7 +57,6 @@ class InspectController(controller.CementBaseController):
         return False
       else: raise e
     tv_show_details['tag_dict'] = self._list_to_dicts(key = 'tag', input_list = tv_show_details['tag'])
-    tv_show_details['country_dict'] = self._list_to_dicts(key = 'country', input_list = tv_show_details['country'])
     tv_show_details['genre_dict'] = self._list_to_dicts(key = 'genre', input_list = tv_show_details['genre'])
     tv_show_details['episodes'] = self._retrieve_sorted_episodes(tv_show_id)
     print self.app.render(tv_show_details, 'tv_show_details.m', None).encode('utf8')
