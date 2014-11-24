@@ -4,7 +4,13 @@ def list_tv_shows():
       "method": "VideoLibrary.GetTVShows", 
       "id": "list_shows", 
       "params": {
-          "properties": ["file"],
+          "properties": [
+            "file", "title", "originaltitle",
+            "genre", "year", "tag",
+            "studio", "cast", "imdbnumber",
+            "mpaa", "playcount", "rating", 
+            "votes", "sorttitle", "dateadded",
+          ]
         },
     }
 

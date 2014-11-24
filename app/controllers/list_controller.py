@@ -18,16 +18,19 @@ class ListController(controller.CementBaseController):
 
   @controller.expose(aliases=['films', 'movie', 'film'], help='Show a list of every movie in the system.')
   def movies(self):
-    movies = self.app.send_rpc_request(list_movies())['movies']
+    field_widths = [('title', 36), ('movieid', 6)]
+    movies = self._align_fields_for_display(self.app.send_rpc_request(list_movies())['movies'], field_widths)
     print self.app.render({'movies': sorted(movies, key = lambda movie: movie['movieid'])}, 'movie_list.m', None).encode('utf8')
 
 
   @controller.expose(aliases=['show','tv_show','tv_shows','tv','tvshows','tvshow'], 
     help='Show a list of every TV show in the system.')
   def shows(self):
+    field_widths = [('title', 36),('tvshowid', 6),]
     shows = []
     for show in self._retrieve_sorted_shows():
       shows.append(show)
+    shows = self._align_fields_for_display(shows, field_widths)
     print self.app.render({'shows': shows}, 'tv_show_list.m', None).encode('utf8')
 
 
@@ -64,3 +67,22 @@ class ListController(controller.CementBaseController):
       episodes,
       key = lambda episode: episode['episodeid']):
       yield episode
+
+
+  def _align_fields_for_display(self, items, fields):
+    """
+    Pads/truncates fields in each item to the specified length and puts the result in index ('display'+field_name).
+    fields should be a list of tuples (str,int): (field_name, length)  
+    """
+    for item in items:
+      for (field_name, length) in fields:
+        if type(item[field_name]) is str or type(item[field_name]) is unicode:
+          field_value = item[field_name]
+        else:
+          field_value = str(item[field_name])
+        item['display{0}'.format(field_name)] = field_value[0:length-1].ljust(length)
+    return items
+
+
+
+

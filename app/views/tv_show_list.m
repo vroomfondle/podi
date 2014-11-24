@@ -1,5 +1,5 @@
 {{#shows}}
-{{{tvshowid}}}        {{{label}}}
+{{{displaytvshowid}}} {{{displaytitle}}} (Played {{{playcount}}} times)
 {{/shows}}
 {{^shows}}
 No shows found.

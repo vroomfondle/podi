@@ -4,7 +4,14 @@ def list_movies():
       "method": "VideoLibrary.GetMovies", 
       "id": "list_movies", 
       "params": {
-          "properties": ["file"]
+          "properties": [
+            "file", "title", "originaltitle",
+            "genre", "year", "tag",
+            "director", "studio", "cast", "imdbnumber",
+            "mpaa", "playcount", "rating", 
+            "runtime", "set", "showlink", "top250",
+            "votes", "sorttitle", "resume", "setid", "dateadded",
+          ],
         },
     }
 
@@ -17,10 +24,12 @@ def inspect_movie(movie_id):
       "params": {
           "movieid": int(movie_id),
           "properties": [
-              "plotoutline", 
-              "cast", "votes", "showlink", "year", "country", 
-              "studio", "genre", "tag", "rating", "writer", "set",
-              "originaltitle", "imdbnumber", "tagline", "title", "plot", "file",
-              ],
+            "file", "title", "originaltitle",
+            "genre", "year", "tag", "tagline",
+            "director", "studio", "cast", "imdbnumber",
+            "mpaa", "playcount", "rating", "plot", "plotoutline",
+            "runtime", "set", "showlink", "streamdetails", "top250",
+            "votes", "sorttitle", "resume", "setid", "dateadded",
+          ],
         },
     }
