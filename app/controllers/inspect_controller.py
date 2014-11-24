@@ -47,7 +47,7 @@ class InspectController(controller.CementBaseController):
     try:
       tv_show_id = self.app.pargs.positional_arguments[0]
     except IndexError, e:
-      self.app.log.error("You must provide a tv_show id number")
+      self.app.log.error("You must provide a show id number")
       return False
     try:
       tv_show_details = self.app.send_rpc_request(inspect_tv_show(tv_show_id))['tvshowdetails']

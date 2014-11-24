@@ -45,15 +45,7 @@ class PlayController(controller.CementBaseController):
     except IndexError, e:
       self.app.log.error('You must provide an episode id number, e.g.: play movie 127')
       return False
-
-    try:
-      episode = [episode_details for episode_details in self.app.send_rpc_request(list_episodes())['episodes'] 
-        if str(episode_details['episodeid']) == tv_episode_id][0]
-    except IndexError, e:
-      self.app.log.error("Episode {0} not found.".format(episode_id))
-      return False
-    # Movie exists if no AttributeError was thrown; try to play it
-    self.app.log.info("Playing episode {0}: {1} ({2})".format(tv_episode_id, episode['label'], episode['file']))
+    self.app.log.info("Playing episode {0}".format(tv_episode_id))
     self.app.send_rpc_request(play_episode(tv_episode_id))
   
 
