@@ -49,7 +49,7 @@ def inspect_tv_show(tv_show_id):
           "tvshowid": int(tv_show_id),
           "properties": [
                 "title", "cast", "votes", "mpaa", "rating",
-                "studio", "genre", "episodeguide", "tag", 
+                "studio", "genre", "episodeguide", "tag", "year",
                 "originaltitle", "imdbnumber", "plot", "lastplayed",
               ],
         },

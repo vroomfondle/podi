@@ -57,3 +57,19 @@ def list_active_players():
     "method": "Player.GetActivePlayers",
     "id": "list_active_players",
   }
+
+def inspect_player(player_id):
+  return {
+    "jsonrpc": "2.0",
+    "method": "Player.GetProperties",
+    "id": "player_properties",
+    "params": {
+        "playerid": int(player_id),
+        "properties": [
+          "percentage", "speed", "playlistid", "audiostreams", "position",
+          "repeat", "currentsubtitle", "type", "subtitles", "canseek",
+          "time", "totaltime", "currentaudiostream", "live", "subtitleenabled",
+        ]
+      }
+
+  }

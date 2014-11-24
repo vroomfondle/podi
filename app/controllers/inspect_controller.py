@@ -1,6 +1,7 @@
 from cement.core import controller
 from lib.podi.rpc.library import inspect_movie
 from lib.podi.rpc.library import list_episodes, inspect_episode, inspect_tv_show
+from lib.podi.rpc.player import inspect_player, list_active_players
 from app.errors import JSONResponseError
 from functools import partial
 import argparse
@@ -17,7 +18,7 @@ class InspectController(controller.CementBaseController):
   def default(self):
     pass
 
-  @controller.expose(aliases=['film'], help='Show details of a movie.')
+  @controller.expose(aliases=['film'], help='Show information about a movie. Provide the id number of the movie (e.g. inspect movie 107).')
   def movie(self):
     try:
       movie_id = self.app.pargs.positional_arguments[0]
@@ -40,7 +41,7 @@ class InspectController(controller.CementBaseController):
     
 
   @controller.expose(aliases=['tv_show','tv','tvshow'], 
-    help='Show details of a TV show.')
+    help='Show information about a TV show. Provide the id number of the show (e.g. inspect show 9).')
   def show(self):
     try:
       tv_show_id = self.app.pargs.positional_arguments[0]
@@ -62,7 +63,7 @@ class InspectController(controller.CementBaseController):
 
 
   @controller.expose(aliases=['tv_episode','tvepisode'], 
-    help='Show details of a TV show episode')
+    help='Show information about a TV show episode. Provide an episode id number (e.g. inspect episode 155).')
   def episode(self):
     try:
       episode_id = self.app.pargs.positional_arguments[0]
@@ -78,6 +79,15 @@ class InspectController(controller.CementBaseController):
       else: raise e
     episode_details['writer_dict'] = self._list_to_dicts(key = 'writer', input_list = episode_details['writer'])
     self.app.render(episode_details, 'episode_details.m')
+
+
+  @controller.expose(help='Show information about the currently-active media player')
+  def player(self):
+    for player in self.app.send_rpc_request(list_active_players()):
+      player_details = self.app.send_rpc_request(inspect_player(player['playerid']))
+      player_details['repeat'] = (player_details['repeat'] == 'on')
+      self.app.log.debug(player_details)
+      self.app.render(player_details, 'player_details.m')
 
 
 
