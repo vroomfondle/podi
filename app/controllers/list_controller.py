@@ -13,7 +13,7 @@ class ListController(controller.CementBaseController):
 
   @controller.expose(hide=True)
   def default(self):
-    pass
+    self.app.args.print_help()
 
 
   @controller.expose(aliases=['films', 'movie', 'film'], help='Show a list of every movie in the system.')

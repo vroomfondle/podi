@@ -16,7 +16,7 @@ class InspectController(controller.CementBaseController):
 
   @controller.expose(hide=True)
   def default(self):
-    pass
+    self.app.args.print_help()
 
   @controller.expose(aliases=['film'], help='Show information about a movie. Provide the id number of the movie (e.g. inspect movie 107).')
   def movie(self):

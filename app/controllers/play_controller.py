@@ -16,7 +16,7 @@ class PlayController(controller.CementBaseController):
 
   @controller.expose(hide=True)
   def default(self):
-    pass
+    self.app.args.print_help()
 
   @controller.expose(aliases=['movies','film','films'],
     help='Play a movie. You must provide a movie id number, e.g.: play movie 127')
@@ -38,7 +38,7 @@ class PlayController(controller.CementBaseController):
 
 
   @controller.expose(aliases=['tvepisode', 'tv_episode'],
-    help='Play a movie. You must provide an episode id number, e.g.: play episode 1340')
+    help='Play a TV episode. You must provide an episode id number, e.g.: play episode 1340')
   def episode(self):
     try:
       tv_episode_id = self.app.pargs.positional_arguments[0]

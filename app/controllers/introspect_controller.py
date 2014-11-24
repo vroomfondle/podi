@@ -12,7 +12,7 @@ class IntrospectController(controller.CementBaseController):
 
   @controller.expose(hide=True)
   def default(self):
-    pass
+    self.app.args.print_help()
 
   @controller.expose()
   def method(self):
