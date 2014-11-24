@@ -46,7 +46,13 @@ class PlayController(controller.CementBaseController):
       self.app.log.error('You must provide an episode id number, e.g.: play movie 127')
       return False
     self.app.log.info("Playing episode {0}".format(tv_episode_id))
-    self.app.send_rpc_request(play_episode(tv_episode_id))
+    try:
+      self.app.send_rpc_request(play_episode(tv_episode_id))
+    except JSONResponseError, e:
+      if e.error_code == -32602:
+        self.app.log.error("Kodi returned an 'invalid parameters' error; this episode may not exist? Use \"inspect player\" to see a list of available streams.")
+        return False
+      else: raise e
   
 
   @controller.expose(aliases=['subtitles'], help='Show subtitles. You must provide a subtitle stream id (e.g. play subtitles 2). Use "inspect player" to see a list of available streams.')
