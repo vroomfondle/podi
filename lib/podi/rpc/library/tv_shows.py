@@ -50,7 +50,7 @@ def inspect_episode(episode_id):
           "episodeid": int(episode_id),
           "properties": [
               "cast", "votes", "firstaired", "season", "showtitle",
-              "rating", "writer", "title", "file",
+              "rating", "writer", "title", "file", "plot",
               "originaltitle", "productioncode", "playcount",
               ],
         },
