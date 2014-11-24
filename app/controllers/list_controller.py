@@ -42,7 +42,7 @@ class ListController(controller.CementBaseController):
     try:
       show_id = self.app.pargs.positional_arguments[0]
     except IndexError:
-      self.app.log.error("You must provide a show id (e.g. list episodes 152).")
+      self.app.log.error("You must provide a show id (e.g. list episodes 152). Use 'list shows' to see all shows.")
       return False
     for ep in self._retrieve_sorted_episodes(show_id):
       episodes.append(ep)
