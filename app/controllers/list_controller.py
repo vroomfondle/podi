@@ -38,21 +38,21 @@ class ListController(controller.CementBaseController):
     help='Show a list of TV episodes for a particular show. A show id number must be provided (e.g. list episodes 152).')
   def episodes(self):
     """The user must provide a show id to restrict the list"""
+    episodes = []
     try:
       show_id = self.app.pargs.positional_arguments[0]
     except IndexError:
       self.app.log.error("You must provide a show id (e.g. list episodes 152).")
       return False
-    for show in self._retrieve_sorted_shows(show_id):
-      episodes = []
-      for ep in self._retrieve_sorted_episodes(show['tvshowid']):
-        episodes.append(ep)
-      field_widths = [('title', 36),('episodeid', 6)]
-      episodes = self._align_fields_for_display(episodes, field_widths)
-      print self.app.render({'show': show, 
-        'display_show?': (show_id is None),
-        'episodes': episodes},
+    for ep in self._retrieve_sorted_episodes(show_id):
+      episodes.append(ep)
+    field_widths = [('title', 36),('episodeid', 6)]
+    episodes = self._align_fields_for_display(episodes, field_widths)
+    if len(episodes) > 0:
+      print self.app.render({'episodes': episodes},
         'episode_list.m', None).encode('utf8')
+    else:
+      self.app.log.error("Kodi returned no episodes; this show may not exist? Use 'list shows' to see all shows.")
 
 
   def _retrieve_sorted_shows(self, tv_show_id = None):

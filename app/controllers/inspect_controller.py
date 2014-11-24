@@ -38,8 +38,8 @@ class InspectController(controller.CementBaseController):
     movie_details['writer_dict'] = self._list_to_dicts(key = 'writer', input_list = movie_details['writer'])
     movie_details['country_dict'] = self._list_to_dicts(key = 'country', input_list = movie_details['country'])
     print self.app.render(movie_details, 'movie_details.m', None).encode('utf8')
+   
 
-    
 
   @controller.expose(aliases=['tv_show','tv','tvshow'], 
     help='Show information about a TV show. Provide the id number of the show (e.g. inspect show 9).')
