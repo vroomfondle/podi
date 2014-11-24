@@ -1,5 +1,5 @@
 from cement.core import controller
-from lib.podi.rpc.player import stop_player, list_active_players
+from lib.podi.rpc.player import stop_player, list_active_players, disable_subtitles
 import argparse
 
 class StopController(controller.CementBaseController):
@@ -17,3 +17,7 @@ class StopController(controller.CementBaseController):
 
 
   
+  @controller.expose(aliases=['subtitles'], help='Disable subtitles.')
+  def subtitle(self):
+    for player in self.app.send_rpc_request(list_active_players()):
+      self.app.send_rpc_request(disable_subtitles(player['playerid']))

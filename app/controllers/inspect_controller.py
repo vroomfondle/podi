@@ -81,7 +81,7 @@ class InspectController(controller.CementBaseController):
     self.app.render(episode_details, 'episode_details.m')
 
 
-  @controller.expose(help='Show information about the currently-active media player')
+  @controller.expose(help='Show information about the currently-active media player, including available audio and subtitle streams.')
   def player(self):
     for player in self.app.send_rpc_request(list_active_players()):
       player_details = self.app.send_rpc_request(inspect_player(player['playerid']))

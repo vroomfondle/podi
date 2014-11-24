@@ -58,6 +58,7 @@ def list_active_players():
     "id": "list_active_players",
   }
 
+
 def inspect_player(player_id):
   return {
     "jsonrpc": "2.0",
@@ -73,3 +74,43 @@ def inspect_player(player_id):
       }
 
   }
+
+
+def enable_subtitles(player_id):
+  return {
+    "jsonrpc": "2.0",
+    "method": "Player.SetSubtitle",
+    "id": "set_subtitle",
+    "params": {
+      "playerid": int(player_id),
+      "subtitle": "on",
+    }
+  }
+
+
+def disable_subtitles(player_id):
+  return {
+    "jsonrpc": "2.0",
+    "method": "Player.SetSubtitle",
+    "id": "set_subtitle",
+    "params": {
+      "playerid": int(player_id),
+      "subtitle": "off",
+    }
+  }
+
+
+def select_subtitle(subtitle_id, player_id):
+  return {
+    "jsonrpc": "2.0",
+    "method": "Player.SetSubtitle",
+    "id": "set_subtitle",
+    "params": {
+      "playerid": int(player_id),
+      "subtitle": int(subtitle_id),
+    }
+  }
+
+
+def select_audio(audio_stream_id):
+  pass

@@ -1,7 +1,7 @@
 from cement.core import controller
 from lib.podi.rpc.library.movies import list_movies
 from lib.podi.rpc.library.tv_shows import list_episodes
-from lib.podi.rpc.player import play_file, play_movie, play_episode
+from lib.podi.rpc.player import play_file, play_movie, play_episode, enable_subtitles, select_subtitle, list_active_players
 import argparse
 
 class PlayController(controller.CementBaseController):
@@ -54,3 +54,16 @@ class PlayController(controller.CementBaseController):
     self.app.log.info("Playing episode {0}: {1} ({2})".format(tv_episode_id, episode['label'], episode['file']))
     self.app.send_rpc_request(play_episode(tv_episode_id))
   
+
+  @controller.expose(aliases=['subtitles'], help='Show subtitles. You must provide a subtitle stream id (e.g. play subtitles 2). Use "inspect player" to see a list of available streams.')
+  def subtitle(self):
+    try:
+      subtitle_id = self.app.pargs.positional_arguments[0]
+    except IndexError, e:
+      self.app.log.error('You must provide a subtitle id number, e.g.: play subtitle 2. Use "inspect player" to see a list of available subtitle streams.')
+      return False
+    for player in self.app.send_rpc_request(list_active_players()):
+      self.app.send_rpc_request(enable_subtitles(player['playerid']))
+      self.app.send_rpc_request(select_subtitle(subtitle_id, player['playerid']))
+    
+
