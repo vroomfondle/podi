@@ -112,5 +112,13 @@ def select_subtitle(subtitle_id, player_id):
   }
 
 
-def select_audio(audio_stream_id):
-  pass
+def select_audio(audio_stream_id, player_id):
+  return {
+    "jsonrpc": "2.0",
+    "method": "Player.SetAudioStream",
+    "id": "set_subtitle",
+    "params": {
+      "playerid": int(player_id),
+      "stream": int(audio_stream_id),
+    }
+  }

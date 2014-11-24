@@ -1,7 +1,9 @@
 from cement.core import controller
 from lib.podi.rpc.library.movies import list_movies
 from lib.podi.rpc.library.tv_shows import list_episodes
-from lib.podi.rpc.player import play_file, play_movie, play_episode, enable_subtitles, select_subtitle, list_active_players
+from lib.podi.rpc.player import play_file, play_movie, play_episode, enable_subtitles
+from lib.podi.rpc.player import select_subtitle, list_active_players, select_audio
+from app.errors import JSONResponseError
 import argparse
 
 class PlayController(controller.CementBaseController):
@@ -63,7 +65,28 @@ class PlayController(controller.CementBaseController):
       self.app.log.error('You must provide a subtitle id number, e.g.: play subtitle 2. Use "inspect player" to see a list of available subtitle streams.')
       return False
     for player in self.app.send_rpc_request(list_active_players()):
-      self.app.send_rpc_request(enable_subtitles(player['playerid']))
-      self.app.send_rpc_request(select_subtitle(subtitle_id, player['playerid']))
+      try:
+        self.app.send_rpc_request(enable_subtitles(player['playerid']))
+        self.app.send_rpc_request(select_subtitle(subtitle_id, player['playerid']))
+      except JSONResponseError, e:
+        if e.error_code == -32602:
+          self.app.log.error("Kodi returned an 'invalid parameters' error; this stream may not exist? Use \"inspect player\" to see a list of available streams.")
+          return False
+        else: raise e
     
 
+  @controller.expose(aliases=['audio_stream'], help='Select an audio stream for the currently-playing video. You must provide a audio stream id (e.g. play audio 2). Use "inspect player" to see a list of available audio streams.')
+  def audio(self):
+    try:
+      audio_id = self.app.pargs.positional_arguments[0]
+    except IndexError, e:
+      self.app.log.error('You must provide a audio id number, e.g.: play audio 2. Use "inspect player" to see a list of available audio streams.')
+      return False
+    for player in self.app.send_rpc_request(list_active_players()):
+      try:
+        self.app.send_rpc_request(select_audio(audio_id, player['playerid']))
+      except JSONResponseError, e:
+        if e.error_code == -32602:
+          self.app.log.error("Kodi returned an 'invalid parameters' error; this stream may not exist? Use \"inspect player\" to see a list of available streams.")
+          return False
+        else: raise e
