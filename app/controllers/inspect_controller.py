@@ -1,7 +1,7 @@
 from cement.core import controller
 from lib.podi.rpc.library import inspect_movie
 from lib.podi.rpc.library import list_episodes, inspect_episode, inspect_tv_show
-from lib.podi.rpc.player import inspect_player, list_active_players
+from lib.podi.rpc.player import inspect_player, list_active_players, inspect_current_item
 from app.errors import JSONResponseError
 from functools import partial
 import argparse
@@ -88,6 +88,7 @@ class InspectController(controller.CementBaseController):
       player_details = self.app.send_rpc_request(inspect_player(player['playerid']))
       player_details['repeat'] = (player_details['repeat'] == 'on')
       self.app.log.debug(player_details)
+      player_details['item'] = self.app.send_rpc_request(inspect_current_item(player['playerid']))['item']
       print self.app.render(player_details, 'player_details.m', None).encode('utf8')
 
 

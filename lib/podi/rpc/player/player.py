@@ -76,6 +76,20 @@ def inspect_player(player_id):
   }
 
 
+def inspect_current_item(player_id):
+  return {
+    "jsonrpc": "2.0",
+    "method": "Player.GetItem",
+    "id": "player_current_item",
+    "params": {
+      "playerid": int(player_id),
+      "properties": [
+        "file", "title", "originaltitle", "streamdetails", 
+      ]
+    }
+  }
+
+
 def enable_subtitles(player_id):
   return {
     "jsonrpc": "2.0",

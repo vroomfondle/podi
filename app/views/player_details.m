@@ -1,4 +1,4 @@
-Playing {{{type}}}
+Playing {{{type}}}: {{#item}}{{#originaltitle}}{{{originaltitle}}} / {{/originaltitle}}{{{title}}}{{/item}}
 {{#totaltime}}
 Length: {{{hours}}}:{{{minutes}}}:{{{seconds}}}
 {{/totaltime}}
