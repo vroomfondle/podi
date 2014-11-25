@@ -6,7 +6,7 @@ def play_file(file_path, resume=False):
       "method": "Player.Open",
       "params": {
             "item": {"file": file_path},
-            "resume": bool(resume),
+            "options": {"resume": bool(resume)},
       },
       "id": "play_file"
   }
@@ -28,7 +28,7 @@ def play_episode(episode_id, resume=False):
       "method": "Player.Open",
       "params": {
          "item": {"episodeid": int(episode_id)},
-          "resume": bool(resume),
+          "options": {"resume": bool(resume)},
       },
       "id": "play_tv_episode_{0}".format(episode_id)
   }

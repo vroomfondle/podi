@@ -41,13 +41,13 @@ class ResumeController(controller.CementBaseController):
     help='Play a TV episode, resuming at the last-watched timestamp if possible. You must provide an episode id number, e.g.: resume episode 1340')
   def episode(self):
     try:
-      tv_episode_id = self.app.pargs.positional_arguments[0]
+      episode_id = self.app.pargs.positional_arguments[0]
     except IndexError, e:
       self.app.log.error('You must provide an episode id number, e.g.: play movie 127')
       return False
-    self.app.log.info("Playing episode {0}".format(tv_episode_id))
+    self.app.log.info("Playing/resuming episode {0}".format(episode_id))
     try:
-      self.app.send_rpc_request(play_episode(tv_episode_id=tv_episode_id, resume=True))
+      self.app.send_rpc_request(play_episode(episode_id=episode_id, resume=True))
     except JSONResponseError, e:
       if e.error_code == -32602:
         self.app.log.error("Kodi returned an 'invalid parameters' error; this episode may not exist? Use 'list episodes' to  see available episodes.")
