@@ -62,7 +62,7 @@ class InspectController(controller.CementBaseController):
       else: raise e
     list_to_dicts(key = 'tag', input_list = tv_show_details['tag'])
     list_to_dicts(key = 'genre', input_list = tv_show_details['genre'])
-    tv_show_details['episodes'] = retrieve_sorted_episodes(tv_show_id, self.app.send_rpc_request)
+    tv_show_details['episodes'] = retrieve_sorted_episodes(self.app.send_rpc_request, tv_show_id)
     print self.app.render(tv_show_details, 'tv_show_details.m', None).encode('utf8')
 
 

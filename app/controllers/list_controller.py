@@ -20,7 +20,7 @@ class ListController(controller.CementBaseController):
   @controller.expose(aliases=['films', 'movie', 'film'], help='Show a list of every movie in the system.')
   def movies(self):
     field_widths = [('title', 36), ('movieid', 6)]
-    movies = self.align_fields_for_display(self.app.send_rpc_request(list_movies())['movies'], field_widths)
+    movies = align_fields_for_display(self.app.send_rpc_request(list_movies())['movies'], field_widths)
     print self.app.render({'movies': sorted(movies, key = lambda movie: movie['movieid'])}, 'movie_list.m', None).encode('utf8')
 
 
@@ -29,9 +29,9 @@ class ListController(controller.CementBaseController):
   def shows(self):
     field_widths = [('title', 36),('tvshowid', 6),]
     shows = []
-    for show in self._retrieve_sorted_shows():
+    for show in retrieve_sorted_shows(self.app.send_rpc_request):
       shows.append(show)
-    shows = self.align_fields_for_display(shows, field_widths)
+    shows = align_fields_for_display(shows, field_widths)
     print self.app.render({'shows': shows}, 'tv_show_list.m', None).encode('utf8')
 
 
@@ -45,10 +45,10 @@ class ListController(controller.CementBaseController):
     except IndexError:
       self.app.log.error("You must provide a show id (e.g. list episodes 152). Use 'list shows' to see all shows.")
       return False
-    for ep in retrieve_sorted_episodes(show_id, self.app.send_rpc_request):
+    for ep in retrieve_sorted_episodes(self.app.send_rpc_request, show_id):
       episodes.append(ep)
     field_widths = [('title', 36),('episodeid', 6)]
-    episodes = self.align_fields_for_display(episodes, field_widths)
+    episodes = align_fields_for_display(episodes, field_widths)
     if len(episodes) > 0:
       print self.app.render({'episodes': episodes},
         'episode_list.m', None).encode('utf8')
