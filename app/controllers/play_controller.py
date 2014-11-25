@@ -2,21 +2,27 @@ from cement.core import controller
 from lib.podi.rpc.library.movies import list_movies
 from lib.podi.rpc.library.tv_shows import list_episodes
 from lib.podi.rpc.player import play_file, play_movie, play_episode, enable_subtitles
-from lib.podi.rpc.player import select_subtitle, list_active_players, select_audio
+from lib.podi.rpc.player import select_subtitle, list_active_players, select_audio, pause_unpause_player
 from app.errors import JSONResponseError
 import argparse
 
 class PlayController(controller.CementBaseController):
   class Meta:
     label = 'play'
-    description = 'Trigger playback of a given media item'
+    description = 'Trigger playback of a given media item (if no item is specified, any currently-playing media items will be paused or unpaused).'
     stacked_on = 'base'
     stacked_type = 'nested'
     arguments = [(['positional_arguments'], dict(action = 'store', nargs = '*', help=argparse.SUPPRESS),),]
 
   @controller.expose(hide=True)
   def default(self):
-    self.app.args.print_help()
+    players = self.app.send_rpc_request(list_active_players())
+    for player in players:
+      self.app.log.info("Pausing/unpausing {0}".format(player['type']))
+      self.app.send_rpc_request(pause_unpause_player(player['playerid']))
+    if len(players) == 0:
+      self.app.log.error("No media item was specified for playback, and there are no currently-playing media items to pause/unpause.")
+      self.app.args.print_help()
 
   @controller.expose(aliases=['movies','film','films'],
     help='Play a movie. You must provide a movie id number, e.g.: play movie 127')
