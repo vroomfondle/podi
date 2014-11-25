@@ -33,10 +33,10 @@ class InspectController(controller.CementBaseController):
         return False
       else: raise e
 
-    movie_details['tag_dict'] = self._list_to_dicts(key = 'tag', input_list = movie_details['tag'])
-    movie_details['genre_dict'] = self._list_to_dicts(key = 'genre', input_list = movie_details['genre'])
-    movie_details['writer_dict'] = self._list_to_dicts(key = 'writer', input_list = movie_details['writer'])
-    movie_details['country_dict'] = self._list_to_dicts(key = 'country', input_list = movie_details['country'])
+    _list_to_dicts(key = 'tag', input_list = movie_details['tag'])
+    _list_to_dicts(key = 'genre', input_list = movie_details['genre'])
+    _list_to_dicts(key = 'writer', input_list = movie_details['writer'])
+    _list_to_dicts(key = 'country', input_list = movie_details['country'])
     print self.app.render(movie_details, 'movie_details.m', None).encode('utf8')
    
 
@@ -56,9 +56,9 @@ class InspectController(controller.CementBaseController):
         self.app.log.error("Kodi returned an 'invalid parameters' error; this tv_show may not exist?")
         return False
       else: raise e
-    tv_show_details['tag_dict'] = self._list_to_dicts(key = 'tag', input_list = tv_show_details['tag'])
-    tv_show_details['genre_dict'] = self._list_to_dicts(key = 'genre', input_list = tv_show_details['genre'])
-    tv_show_details['episodes'] = self._retrieve_sorted_episodes(tv_show_id)
+    _list_to_dicts(key = 'tag', input_list = tv_show_details['tag'])
+    _list_to_dicts(key = 'genre', input_list = tv_show_details['genre'])
+    tv_show_details['episodes'] = _retrieve_sorted_episodes(tv_show_id, self.app.send_rpc_request)
     print self.app.render(tv_show_details, 'tv_show_details.m', None).encode('utf8')
 
 
@@ -78,7 +78,7 @@ class InspectController(controller.CementBaseController):
         self.app.log.error("Kodi returned an 'invalid parameters' error; this episode may not exist?")
         return False
       else: raise e
-    episode_details['writer_dict'] = self._list_to_dicts(key = 'writer', input_list = episode_details['writer'])
+    _list_to_dicts(key = 'writer', input_list = episode_details['writer'])
     print self.app.render(episode_details, 'episode_details.m', None).encode('utf8')
 
 
@@ -93,14 +93,18 @@ class InspectController(controller.CementBaseController):
 
 
 
-  def _retrieve_sorted_episodes(self, tv_show_id):
-    episodes =  self.app.send_rpc_request(list_episodes(tv_show_id)).get('episodes', [])
-    for episode in sorted(
-      episodes,
-      key = lambda episode: episode['episodeid']):
-      yield episode
+def _retrieve_sorted_episodes(tv_show_id, rpc):
+  """rpc should be a callable which will send the JSONRPC request to the Kodi server"""
+  episodes =  rpc(list_episodes(tv_show_id)).get('episodes', [])
+  for episode in sorted(
+    episodes,
+    key = lambda episode: episode['episodeid']):
+    yield episode
 
 
 
-  def _list_to_dicts(self, key, input_list):
-    return [{key: x} for x in input_list]
+def _list_to_dicts(key, input_list):
+  """Turns a list of values into a list of single-entry dicts, with the provided key,
+  so that the dicts can be used with pystache. The list is modified in-place."""
+  for index in range(len(input_list)):
+    input_list[index] = {key: input_list[index]}

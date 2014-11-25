@@ -7,33 +7,33 @@ Title: {{{title}}}
 Tagline: {{{tagline}}}
 Year: {{{year}}}
 Countries: 
-{{#country_dict}}
+{{#country}}
   {{{country}}}
-{{/country_dict}}
+{{/country}}
 
 Genres: 
-{{#genre_dict}}
+{{#genre}}
   {{{genre}}}
-{{/genre_dict}}
-{{^genre_dict}}
+{{/genre}}
+{{^genre}}
   No genres have been set.
-{{/genre_dict}}
+{{/genre}}
 
 Tags: 
-{{#tag_dict}}
+{{#tag}}
   {{{tag}}}
-{{/tag_dict}}
-{{^tag_dict}}
+{{/tag}}
+{{^tag}}
   No tags have been set.
-{{/tag_dict}}
+{{/tag}}
 
 Writers: 
-{{#writer_dict}}
+{{#writer}}
   {{{writer}}}
-{{/writer_dict}}
-{{^writer_dict}}
+{{/writer}}
+{{^writer}}
   No writers.
-{{/writer_dict}}
+{{/writer}}
 
 Cast:
 {{#cast}}

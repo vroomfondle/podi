@@ -10,12 +10,12 @@ Air Date: {{{firstaired}}}
 Season: {{{season}}}
 
 Writers:
-{{#writer_dict}}
+{{#writer}}
   {{{writer}}}
-{{/writer_dict}}
-{{^writer_dict}}
+{{/writer}}
+{{^writer}}
   No writers available.
-{{/writer_dict}}
+{{/writer}}
 
 Cast:
 {{#cast}}
