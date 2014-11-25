@@ -1,31 +1,34 @@
 from types import DictType
 
-def play_file(file_path):
+def play_file(file_path, resume=False):
   return {
       "jsonrpc": "2.0",
       "method": "Player.Open",
       "params": {
-            "item": {"file": file_path}
+            "item": {"file": file_path},
+            "resume": bool(resume),
       },
       "id": "play_file"
   }
 
-def play_movie(movie_id):
+def play_movie(movie_id, resume=False):
   return {
       "jsonrpc": "2.0",
       "method": "Player.Open",
       "params": {
-            "item": {"movieid": int(movie_id)}
+            "item": {"movieid": int(movie_id)},
+            "options": {"resume": bool(resume)},
       },
       "id": "play_movie_{0}".format(movie_id)
   }
 
-def play_episode(episode_id):
+def play_episode(episode_id, resume=False):
   return {
       "jsonrpc": "2.0",
       "method": "Player.Open",
       "params": {
-         "item": {"episodeid": int(episode_id)}
+         "item": {"episodeid": int(episode_id)},
+          "resume": bool(resume),
       },
       "id": "play_tv_episode_{0}".format(episode_id)
   }
