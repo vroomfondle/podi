@@ -5,7 +5,7 @@ import argparse
 class CleanupController(controller.CementBaseController):
   class Meta:
     label = 'cleanup'
-    aliases = ['tidy']
+    aliases = ['tidy', 'clean']
     description = 'Clean up media libraries by removing non-existent items'
     stacked_on = 'base'
     stacked_type = 'nested'

@@ -14,7 +14,9 @@ class ListController(controller.CementBaseController):
     description = 'Retrieve and display lists of media items'
     stacked_on = 'base'
     stacked_type = 'nested'
-    arguments = [(['positional_arguments'], dict(action = 'store', nargs = '*', help=argparse.SUPPRESS),),]
+    arguments = [
+        (['positional_arguments'], dict(action = 'store', nargs = '*', help=argparse.SUPPRESS),),
+      ]
 
 
 
