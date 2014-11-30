@@ -11,6 +11,7 @@ def list_movies(filters=[]):
             "mpaa", "playcount", "rating", 
             "runtime", "set", "showlink", "top250",
             "votes", "sorttitle", "resume", "setid", "dateadded",
+            "streamdetails",
           ],
         },
     }

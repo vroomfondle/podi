@@ -1,5 +1,5 @@
 {{#movies}}
-{{{displaymovieid}}} {{{displaytitle}}} (Played {{{playcount}}} times)
+{{{displaymovieid}}} {{{displaytitle}}} {{#runtime}}{{{str}}}{{/runtime}}     (Played {{{playcount}}} times)
 {{/movies}}
 {{^movies}}
 No movies found.

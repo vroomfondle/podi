@@ -2,6 +2,7 @@ from cement.core import controller
 from lib.podi.rpc.library import list_movies, inspect_movie
 from lib.podi.rpc.library import list_tv_shows, list_episodes
 from lib.podi.util import retrieve_sorted_episodes, retrieve_sorted_shows, retrieve_sorted_movies, align_fields_for_display
+from lib.podi.util import extract_video_runtime
 import argparse
 
 
@@ -32,6 +33,10 @@ class ListController(controller.CementBaseController):
     field_widths = [('title', 36), ('movieid', 6)]
     movies = []
     for movie in retrieve_sorted_movies(rpc=self.app.send_rpc_request, filters=filters):
+      try:
+        movie['runtime'] = extract_video_runtime(movie)
+      except ValueError, e:
+        movie['runtime'] = e.default_runtime
       movies.append(movie)
     movies = align_fields_for_display(movies, field_widths)
     print self.app.render({'movies': sorted(movies, key = lambda movie: movie['movieid'])}, 'movie_list.m', None).encode('utf8')
