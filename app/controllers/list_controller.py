@@ -1,7 +1,7 @@
 from cement.core import controller
 from lib.podi.rpc.library import list_movies, inspect_movie
 from lib.podi.rpc.library import list_tv_shows, list_episodes
-from lib.podi.util import retrieve_sorted_episodes, retrieve_sorted_shows, align_fields_for_display
+from lib.podi.util import retrieve_sorted_episodes, retrieve_sorted_shows, retrieve_sorted_movies, align_fields_for_display
 import argparse
 
 
@@ -28,7 +28,10 @@ class ListController(controller.CementBaseController):
   def movies(self):
     filters = self._parse_video_filters(self.app.pargs.positional_arguments[0:])
     field_widths = [('title', 36), ('movieid', 6)]
-    movies = align_fields_for_display(self.app.send_rpc_request(list_movies(filters=filters))['movies'], field_widths)
+    movies = []
+    for movie in retrieve_sorted_movies(rpc=self.app.send_rpc_request, filters=filters):
+      movies.append(movie)
+    movies = align_fields_for_display(movies, field_widths)
     print self.app.render({'movies': sorted(movies, key = lambda movie: movie['movieid'])}, 'movie_list.m', None).encode('utf8')
 
 
@@ -39,7 +42,7 @@ class ListController(controller.CementBaseController):
     filters = self._parse_video_filters(self.app.pargs.positional_arguments[0:])
     field_widths = [('title', 36),('tvshowid', 6),]
     shows = []
-    for show in retrieve_sorted_shows(self.app.send_rpc_request, filters=filters):
+    for show in retrieve_sorted_shows(rpc=self.app.send_rpc_request, filters=filters):
       shows.append(show)
     shows = align_fields_for_display(shows, field_widths)
     print self.app.render({'shows': shows}, 'tv_show_list.m', None).encode('utf8')
@@ -57,7 +60,7 @@ class ListController(controller.CementBaseController):
       self.app.log.error("You must provide a show id (e.g. list episodes 152). Use 'list shows' to see all shows.")
       return False
     filters = self._parse_video_filters(self.app.pargs.positional_arguments[1:])
-    for ep in retrieve_sorted_episodes(self.app.send_rpc_request, show_id, filters=filters):
+    for ep in retrieve_sorted_episodes(rpc=self.app.send_rpc_request, tv_show_id=show_id, filters=filters):
       episodes.append(ep)
     field_widths = [('title', 36),('episodeid', 6)]
     episodes = align_fields_for_display(episodes, field_widths)

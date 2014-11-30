@@ -15,7 +15,7 @@ def list_movies(filters=[]):
         },
     }
 
-  if len(filters) != 0:
+  if filters is not None and len(filters) != 0:
     request['params']['filter'] = []
     print filters
     for index in range(len(filters)):

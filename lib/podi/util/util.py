@@ -1,29 +1,35 @@
-from ..rpc.library import list_episodes, list_tv_shows
+from ..rpc.library import list_episodes, list_tv_shows, list_movies
 
-def retrieve_sorted_episodes(rpc, tv_show_id, sort_field='episodeid', filters=None):
+SORT_ASC=1
+SORT_DESC=2
+
+def retrieve_sorted_episodes(rpc, tv_show_id, sort_field='episodeid', sort_order=SORT_ASC, filters=None):
   """rpc should be a callable which will send the JSONRPC request to the Kodi server"""
-  episodes =  rpc(list_episodes(tv_show_id)).get('episodes', [])
+  episodes =  rpc(list_episodes(tv_show_id, filters=filters)).get('episodes', [])
   for episode in sorted(
     episodes,
     key = lambda episode: episode[sort_field]):
     yield episode
 
 
-def retrieve_sorted_movies(rpc, sort_field='movieid', filters=None):
+
+def retrieve_sorted_movies(rpc, sort_field='movieid', sort_order=SORT_ASC, filters=None):
   """rpc should be a callable which will send the JSONRPC request to the Kodi server"""
-  episodes =  rpc(list_movies(tv_show_id)).get('movies', [])
-  for episode in sorted(
-    episodes,
-    key = lambda episode: episode[sort_field]):
-    yield episode
+  movies =  rpc(list_movies(filters=filters)).get('movies', [])
+  for movie in sorted(
+    movies,
+    key = lambda movie: movie[sort_field]):
+    yield movie
 
 
-def retrieve_sorted_shows(rpc, tv_show_id = None, sort_field='tvshowid', filters=None):
+
+def retrieve_sorted_shows(rpc, tv_show_id = None, sort_field='tvshowid', sort_order=SORT_ASC, filters=None):
   """rpc should be a callable which will send the JSONRPC request to the Kodi server. tv_show_id can be used to restrict the list to a single id."""
-  shows = rpc(list_tv_shows()).get('tvshows',[])
+  shows = rpc(list_tv_shows(filters=filters)).get('tvshows',[])
   for show in sorted(shows, key = lambda show: show[sort_field]):
     if (tv_show_id is None) or int(show['tvshowid']) == int(tv_show_id): 
       yield show
+
 
 
 def list_to_dicts(key, input_list):
@@ -37,7 +43,8 @@ def list_to_dicts(key, input_list):
 def align_fields_for_display(items, fields):
   """
   Pads/truncates fields in each item to the specified length and puts the result in index ('display'+field_name).
-  fields should be a list of tuples (str,int): (field_name, length)  
+  fields should be a list of tuples (str,int): (field_name, length).
+  Returns the input list with padded items.
   """
   for item in items:
     for (field_name, length) in fields:

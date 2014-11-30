@@ -1,4 +1,4 @@
-def list_tv_shows():
+def list_tv_shows(filters=None):
   return {
       "jsonrpc": "2.0",
       "method": "VideoLibrary.GetTVShows", 
@@ -17,7 +17,7 @@ def list_tv_shows():
 
 
 
-def list_episodes(tv_show_id = None):
+def list_episodes(tv_show_id = None, filters=None):
   request = {
       "jsonrpc": "2.0",
       "method": "VideoLibrary.GetEpisodes", 
