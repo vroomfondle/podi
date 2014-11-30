@@ -64,8 +64,9 @@ class ListController(controller.CementBaseController):
       self.app.log.error("You must provide a show id (e.g. list episodes 152). Use 'list shows' to see all shows.")
       return False
     filters = self._parse_video_filters(self.app.pargs.positional_arguments[1:])
-    for ep in retrieve_sorted_episodes(rpc=self.app.send_rpc_request, tv_show_id=show_id, filters=filters):
-      episodes.append(ep)
+    for episode in retrieve_sorted_episodes(rpc=self.app.send_rpc_request, tv_show_id=show_id, filters=filters):
+      episode['runtime'] = format_runtime(episode)
+      episodes.append(episode)
     field_widths = [('title', 36),('episodeid', 6)]
     episodes = align_fields_for_display(episodes, field_widths)
     if len(episodes) > 0:
