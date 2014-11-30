@@ -1,5 +1,5 @@
-def list_movies():
-  return {
+def list_movies(filters=[]):
+  request = {
       "jsonrpc": "2.0",
       "method": "VideoLibrary.GetMovies", 
       "id": "list_movies", 
@@ -14,6 +14,16 @@ def list_movies():
           ],
         },
     }
+
+  if len(filters) != 0:
+    request['params']['filter'] = []
+    print filters
+    for index in range(len(filters)):
+      request['params']['filter'].append(
+        {filters[0].keys()[0]: filters[0].values()[0],}
+      )
+
+  return request
 
 
 def inspect_movie(movie_id):

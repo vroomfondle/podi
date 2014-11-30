@@ -39,7 +39,7 @@ class PlayController(controller.CementBaseController):
     except IndexError, e:
       self.app.log.error("Movie {0} not found.".format(movie_id))
       return False
-    self.app.log.info("Playing movie {0}: {1} ({2})".format(movie_id, movie['label'], movie['file']))
+    self.app.log.info("Playing movie {0}: {1} ({2})".format(movie_id, movie['label'].encode('utf8'), movie['file']))
     self.app.send_rpc_request(play_movie(movie_id))
 
 
