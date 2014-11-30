@@ -57,25 +57,18 @@ def align_fields_for_display(items, fields):
 
 
 
-def extract_video_runtime(video_item):
+def format_runtime(video_item):
   """ 
   Finds the longest video stream in a given item, and returns a dict: 
     {'total_seconds':n, 'hours':n, 'minutes':n, 'seconds':n, 'str':"{hours}:{minutes}:{seconds}"}.
   video_item should be an item as returned in response to the JSON defined by the lib.podi.rpc.library methods, 
   and should include a sub-dict called 'streamdetails'.
-  Raises a ValueError if there are no video streams (in the ValueError will be an attribute called 'default_runtime' which contains 0 hours/mins/secs; refer to this if you want to easily mimic the standard return format but with zero values).
   If the 'streamdetails' sub-dict is entirely missing, expect to see an IndexError.
   """
-  if len(video_item['streamdetails']['video']) == 0:
-    err = ValueError('No video streams found')
-    err.default_runtime = {'total_seconds': 0, 'hours': 0, 'minutes': 0, 'seconds': 0, 'str':'00:00:00'}
-    raise err
-  total_seconds = int(max(video_item['streamdetails']['video'], 
-    key = lambda item: int(item['duration']))['duration'])
-  minutes, seconds = divmod(total_seconds, 60)
+  minutes, seconds = divmod(int(video_item['runtime']), 60)
   hours, minutes = divmod(minutes, 60)
   return {
-    'total_seconds': total_seconds,
+    'total_seconds': video_item['runtime'],
     'hours': hours,
     'minutes': minutes,
     'seconds': seconds,
