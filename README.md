@@ -1,1 +1,1 @@
-Dependencies: pystache, cement
+Dependencies: pystache, cement, pyyaml

@@ -1,1 +1,1 @@
-from json_error import JSONResponseError
+from .json_error import JSONResponseError

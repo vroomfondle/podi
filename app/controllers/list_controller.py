@@ -36,7 +36,7 @@ class ListController(controller.CementBaseController):
       movie['runtime'] = format_runtime(movie)
       movies.append(movie)
     movies = align_fields_for_display(movies, field_widths)
-    print self.app.render({'movies': sorted(movies, key = lambda movie: movie['movieid'])}, 'movie_list.m', None).encode('utf8')
+    print(self.app.render({'movies': sorted(movies, key = lambda movie: movie['movieid'])}, 'movie_list.m', None))
 
 
 
@@ -49,7 +49,7 @@ class ListController(controller.CementBaseController):
     for show in retrieve_sorted_shows(rpc=self.app.send_rpc_request, filters=filters):
       shows.append(show)
     shows = align_fields_for_display(shows, field_widths)
-    print self.app.render({'shows': shows}, 'tv_show_list.m', None).encode('utf8')
+    print(self.app.render({'shows': shows}, 'tv_show_list.m', None))
 
 
 
@@ -70,8 +70,8 @@ class ListController(controller.CementBaseController):
     field_widths = [('title', 36),('episodeid', 6)]
     episodes = align_fields_for_display(episodes, field_widths)
     if len(episodes) > 0:
-      print self.app.render({'episodes': episodes},
-        'episode_list.m', None).encode('utf8')
+      print(self.app.render({'episodes': episodes},
+        'episode_list.m', None))
     else:
       self.app.log.error("Kodi returned no episodes; this show may not exist? Use 'list shows' to see all shows.")
 

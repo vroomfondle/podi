@@ -18,10 +18,10 @@ def list_movies(filters=[]):
 
   if filters is not None and len(filters) != 0:
     request['params']['filter'] = []
-    print filters
+    print(filters)
     for index in range(len(filters)):
       request['params']['filter'].append(
-        {filters[0].keys()[0]: filters[0].values()[0],}
+        {list(filters[0].keys())[0]: list(filters[0].values())[0],}
       )
 
   return request

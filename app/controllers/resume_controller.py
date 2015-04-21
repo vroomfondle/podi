@@ -23,14 +23,14 @@ class ResumeController(controller.CementBaseController):
   def movie(self):
     try:
       movie_id = self.app.pargs.positional_arguments[0]
-    except IndexError, e:
+    except IndexError as e:
       self.app.log.error('You must provide a movie id number, e.g.: play movie 127')
       return False
 
     try:
       movie = [movie_details for movie_details in self.app.send_rpc_request(list_movies())['movies'] 
         if str(movie_details['movieid']) == movie_id][0]
-    except IndexError, e:
+    except IndexError as e:
       self.app.log.error("Movie {0} not found.".format(movie_id))
       return False
     self.app.log.info("Playing/resuming movie {0}: {1} ({2})".format(movie_id, movie['label'], movie['file']))
@@ -42,13 +42,13 @@ class ResumeController(controller.CementBaseController):
   def episode(self):
     try:
       episode_id = self.app.pargs.positional_arguments[0]
-    except IndexError, e:
+    except IndexError as e:
       self.app.log.error('You must provide an episode id number, e.g.: play movie 127')
       return False
     self.app.log.info("Playing/resuming episode {0}".format(episode_id))
     try:
       self.app.send_rpc_request(play_episode(episode_id=episode_id, resume=True))
-    except JSONResponseError, e:
+    except JSONResponseError as e:
       if e.error_code == -32602:
         self.app.log.error("Kodi returned an 'invalid parameters' error; this episode may not exist? Use 'list episodes' to  see available episodes.")
         return False

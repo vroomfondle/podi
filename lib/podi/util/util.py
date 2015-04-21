@@ -48,7 +48,7 @@ def align_fields_for_display(items, fields):
   """
   for item in items:
     for (field_name, length) in fields:
-      if type(item[field_name]) is str or type(item[field_name]) is unicode:
+      if type(item[field_name]) is str or type(item[field_name]) is str:
         field_value = item[field_name]
       else:
         field_value = str(item[field_name])

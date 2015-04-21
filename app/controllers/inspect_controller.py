@@ -27,12 +27,12 @@ class InspectController(controller.CementBaseController):
   def movie(self):
     try:
       movie_id = self.app.pargs.positional_arguments[0]
-    except IndexError, e:
+    except IndexError as e:
       self.app.log.error("You must provide a movie id number")
       return False
     try:
       movie_details = self.app.send_rpc_request(inspect_movie(movie_id))['moviedetails']
-    except JSONResponseError, e:
+    except JSONResponseError as e:
       if e.error_code == -32602:
         self.app.log.error("Kodi returned an 'invalid parameters' error; this movie may not exist?")
         return False
@@ -41,7 +41,7 @@ class InspectController(controller.CementBaseController):
     list_to_dicts(key = 'genre', input_list = movie_details['genre'])
     list_to_dicts(key = 'writer', input_list = movie_details['writer'])
     list_to_dicts(key = 'country', input_list = movie_details['country'])
-    print self.app.render(movie_details, 'movie_details.m', None).encode('utf8')
+    print(self.app.render(movie_details, 'movie_details.m', None))
    
 
 
@@ -50,12 +50,12 @@ class InspectController(controller.CementBaseController):
   def show(self):
     try:
       tv_show_id = self.app.pargs.positional_arguments[0]
-    except IndexError, e:
+    except IndexError as e:
       self.app.log.error("You must provide a show id number")
       return False
     try:
       tv_show_details = self.app.send_rpc_request(inspect_tv_show(tv_show_id))['tvshowdetails']
-    except JSONResponseError, e:
+    except JSONResponseError as e:
       if e.error_code == -32602:
         self.app.log.error("Kodi returned an 'invalid parameters' error; this tv_show may not exist?")
         return False
@@ -63,7 +63,7 @@ class InspectController(controller.CementBaseController):
     list_to_dicts(key = 'tag', input_list = tv_show_details['tag'])
     list_to_dicts(key = 'genre', input_list = tv_show_details['genre'])
     tv_show_details['episodes'] = retrieve_sorted_episodes(self.app.send_rpc_request, tv_show_id)
-    print self.app.render(tv_show_details, 'tv_show_details.m', None).encode('utf8')
+    print(self.app.render(tv_show_details, 'tv_show_details.m', None))
 
 
 
@@ -72,18 +72,18 @@ class InspectController(controller.CementBaseController):
   def episode(self):
     try:
       episode_id = self.app.pargs.positional_arguments[0]
-    except IndexError, e:
+    except IndexError as e:
       self.app.log.error("You must provide a episode id number")
       return False
     try:
       episode_details = self.app.send_rpc_request(inspect_episode(episode_id))['episodedetails']
-    except JSONResponseError, e:
+    except JSONResponseError as e:
       if e.error_code == -32602:
         self.app.log.error("Kodi returned an 'invalid parameters' error; this episode may not exist?")
         return False
       else: raise e
     list_to_dicts(key = 'writer', input_list = episode_details['writer'])
-    print self.app.render(episode_details, 'episode_details.m', None).encode('utf8')
+    print(self.app.render(episode_details, 'episode_details.m', None))
 
 
 
@@ -94,7 +94,7 @@ class InspectController(controller.CementBaseController):
       player_details['repeat'] = (player_details['repeat'] == 'on')
       self.app.log.debug(player_details)
       player_details['item'] = self.app.send_rpc_request(inspect_current_item(player['playerid']))['item']
-      print self.app.render(player_details, 'player_details.m', None).encode('utf8')
+      print(self.app.render(player_details, 'player_details.m', None))
 
 
 

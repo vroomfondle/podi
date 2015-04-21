@@ -1,8 +1,8 @@
 from cement.core import foundation, controller
-from httplib import HTTPConnection
-from urllib import quote
+from http.client import HTTPConnection
+from urllib.parse import quote
 from os.path import expanduser, dirname
-from errors import JSONResponseError
+from .errors import JSONResponseError
 from lib.podi.rpc import rpc_version
 import json
 
@@ -13,7 +13,7 @@ class PodiBase(controller.CementBaseController):
 
   @controller.expose(hide=True, aliases=['run'])
   def default(self):
-    print 'Use --help to see a list of commands'
+    print('Use --help to see a list of commands')
     
 
 class PodiApplication(foundation.CementApp):
@@ -49,7 +49,7 @@ class PodiApplication(foundation.CementApp):
     headers={"Content-type": "application/json"}
     self.log.debug("Sending RPC request: {0}".format(request))
     self.connection.request("GET", "/jsonrpc?request=%s" % quote(json.dumps(request), ''), None, headers)
-    response_text = self.connection.getresponse().read()
+    response_text = self.connection.getresponse().read().decode('utf-8')
     self.log.debug("Received RPC response: {0}".format(response_text))
     response = json.loads(response_text)
     if response.get('error', False):

@@ -1,5 +1,3 @@
-from types import DictType
-
 def play_file(file_path, resume=False):
   return {
       "jsonrpc": "2.0",
