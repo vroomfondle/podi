@@ -30,13 +30,14 @@ as necessary to represent your Kodi web interface details.
 
 
 ##Usage
-    podi --help
+    ./podi.py --help
 
 ### Listing available media
-    podi list movies
-    podi list shows
-    podi list episodes 133
+    ./podi.py list movies
+    ./podi.py list shows
+    ./podi.py list episodes 133
 ### Playing media
-    podi play movie 123
-    podi play episode 255
+    ./podi.py play movie 123
+    ./podi.py play episode 255
+
 
