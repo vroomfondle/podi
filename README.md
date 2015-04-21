@@ -18,11 +18,11 @@ Put the following in $HOME/podi.conf, subsituting values
 as necessary to represent your Kodi web interface details.
 
 
-[Configuration]
-host=192.168.1.176
-port=8080
-user=xbmc
-password=
+    [Configuration]
+    host=192.168.1.176
+    port=8080
+    user=xbmc
+    password=
 
 
 ##Usage
