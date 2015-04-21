@@ -9,6 +9,22 @@ Movies, TV shows and TV episodes have a unique integer id within Kodi,
 and this is displayed when listing media and used as a parameter when
 playing things.
 
+##Configuring Kodi
+You need to enable the Kodi web interface before you can use Podi.
+See http://kodi.wiki/view/Web_interface
+
+##Configuration
+Put the following in $HOME/podi.conf, subsituting values
+as necessary to represent your Kodi web interface details.
+
+
+[Configuration]
+host=192.168.1.176
+port=8080
+user=xbmc
+password=
+
+
 ##Usage
     podi --help
 
