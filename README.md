@@ -9,6 +9,10 @@ Movies, TV shows and TV episodes have a unique integer id within Kodi,
 and this is displayed when listing media and used as a parameter when
 playing things.
 
+##Requirements
+Podi requires Python 3 and a version of Kodi which implements version 6
+of the Kodi JSON-RPC API (Kodi 13.0 onwards).
+
 ##Configuring Kodi
 You need to enable the Kodi web interface before you can use Podi.
 See http://kodi.wiki/view/Web_interface
