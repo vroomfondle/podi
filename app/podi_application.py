@@ -28,8 +28,8 @@ class PodiApplication(foundation.CementApp):
 
 
 
-  def  __init__(self):
-    super(PodiApplication, self).__init__()
+  def  __init__(self, **kwargs):
+    super(PodiApplication, self).__init__(**kwargs)
 
 
 
