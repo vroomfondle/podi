@@ -1,6 +1,6 @@
 from cement.core import controller
-from lib.podi.rpc.library import inspect_movie
-from lib.podi.rpc.library import list_episodes, inspect_episode, inspect_tv_show
+from lib.podi.rpc.library import inspect_movie, list_episodes, inspect_episode,\
+  inspect_tv_show
 from lib.podi.rpc.player import inspect_player, list_active_players, inspect_current_item
 from lib.podi.util import retrieve_sorted_episodes, list_to_dicts
 from app.errors import JSONResponseError

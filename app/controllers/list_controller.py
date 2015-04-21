@@ -1,8 +1,8 @@
 from cement.core import controller
-from lib.podi.rpc.library import list_movies, inspect_movie
-from lib.podi.rpc.library import list_tv_shows, list_episodes
-from lib.podi.util import retrieve_sorted_episodes, retrieve_sorted_shows, retrieve_sorted_movies, align_fields_for_display
-from lib.podi.util import format_runtime
+from lib.podi.rpc.library import list_movies, inspect_movie, list_tv_shows,\
+  list_episodes
+from lib.podi.util import retrieve_sorted_episodes, retrieve_sorted_shows,\
+  retrieve_sorted_movies, align_fields_for_display, format_runtime
 import argparse
 
 

@@ -1,8 +1,8 @@
 from cement.core import controller
 from lib.podi.rpc.library.movies import list_movies
 from lib.podi.rpc.library.tv_shows import list_episodes
-from lib.podi.rpc.player import play_file, play_movie, play_episode, enable_subtitles
-from lib.podi.rpc.player import select_subtitle, list_active_players, select_audio, pause_unpause_player
+from lib.podi.rpc.player import play_file, play_movie, play_episode,\
+  enable_subtitles, select_subtitle, list_active_players, select_audio, pause_unpause_player
 from app.errors import JSONResponseError
 import argparse
 
