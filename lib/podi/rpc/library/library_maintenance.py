@@ -18,6 +18,11 @@
 
 
 def clean_video_library():
+    """
+    :returns A dict representing the JSON RPC call to tell Kodi to clean up its video library
+        (remove missing files etc.)
+    """
+
     return {
         "jsonrpc": "2.0",
         "method": "VideoLibrary.Clean",
@@ -26,6 +31,11 @@ def clean_video_library():
 
 
 def clean_audio_library():
+    """
+    :returns A dict representing the JSON RPC call to tell Kodi to clean up its audio library
+        (remove missing files etc.)
+    """
+
     return {
         "jsonrpc": "2.0",
         "method": "AudioLibrary.Clean",
@@ -34,6 +44,11 @@ def clean_audio_library():
 
 
 def update_video_library():
+    """
+    :returns A dict representing the JSON RPC call to tell Kodi to update its video library
+        (add new files etc.)
+    """
+
     return {
         "jsonrpc": "2.0",
         "method": "VideoLibrary.Scan",
@@ -42,6 +57,11 @@ def update_video_library():
 
 
 def update_audio_library():
+    """
+    :returns A dict representing the JSON RPC call to tell Kodi to update its audio library
+        (add new files etc.)
+    """
+
     return {
         "jsonrpc": "2.0",
         "method": "AudioLibrary.Scan",

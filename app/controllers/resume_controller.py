@@ -17,16 +17,21 @@
 """
 from cement.core import controller
 from lib.podi.rpc.library.movies import list_movies
-from lib.podi.rpc.library.tv_shows import list_episodes
-from lib.podi.rpc.player import play_file, play_movie, play_episode,\
-    enable_subtitles, select_subtitle, list_active_players, select_audio, pause_unpause_player
+from lib.podi.rpc.player import play_episode, play_movie
 from app.errors import JSONResponseError
 import argparse
 
 
 class ResumeController(controller.CementBaseController):
+    """
+    Sends RPC calls to instruct Kodi to resume playback of media items.
+    """
 
     class Meta:
+        """
+        Defines metadata for use by the Cement framework.
+        """
+
         label = 'resume'
         description = 'Resume playback of a given media item (or play it from the start if not resumable).'
         stacked_on = 'base'
@@ -36,6 +41,10 @@ class ResumeController(controller.CementBaseController):
 
     @controller.expose(hide=True)
     def default(self):
+        """
+        Prints the help text when the user has supplied no arguments.
+        """
+
         self.app.args.print_help()
 
     @controller.expose(
@@ -43,11 +52,16 @@ class ResumeController(controller.CementBaseController):
             'movies',
             'film',
             'films'],
-        help='Play a movie, resuming at the last-watched timestamp if possible. You must provide a movie id number, e.g.: resume movie 127')
+        help="Play a movie, resuming at the last-watched timestamp if possible. "\
+            "You must provide a movie id number, e.g.: resume movie 127")
     def movie(self):
+        """
+        Instructs Kodi to resume playback of the movie specified by the user.
+        """
+
         try:
             movie_id = self.app.pargs.positional_arguments[0]
-        except IndexError as e:
+        except IndexError as err:
             self.app.log.error(
                 'You must provide a movie id number, e.g.: play movie 127')
             return False
@@ -55,7 +69,7 @@ class ResumeController(controller.CementBaseController):
         try:
             movie = [movie_details for movie_details in self.app.send_rpc_request(list_movies())['movies']
                      if str(movie_details['movieid']) == movie_id][0]
-        except IndexError as e:
+        except IndexError as err:
             self.app.log.error("Movie {0} not found.".format(movie_id))
             return False
         self.app.log.info(
@@ -66,11 +80,16 @@ class ResumeController(controller.CementBaseController):
         aliases=[
             'tvepisode',
             'tv_episode'],
-        help='Play a TV episode, resuming at the last-watched timestamp if possible. You must provide an episode id number, e.g.: resume episode 1340')
+        help="Play a TV episode, resuming at the last-watched timestamp if possible. "\
+        "You must provide an episode id number, e.g.: resume episode 1340")
     def episode(self):
+        """
+        Instructs Kodi to resume playback of the TV episode specified by the user.
+        """
+
         try:
             episode_id = self.app.pargs.positional_arguments[0]
-        except IndexError as e:
+        except IndexError as err:
             self.app.log.error(
                 'You must provide an episode id number, e.g.: play movie 127')
             return False
@@ -78,10 +97,11 @@ class ResumeController(controller.CementBaseController):
         try:
             self.app.send_rpc_request(
                 play_episode(episode_id=episode_id, resume=True))
-        except JSONResponseError as e:
-            if e.error_code == -32602:
+        except JSONResponseError as err:
+            if err.error_code == -32602:
                 self.app.log.error(
-                    "Kodi returned an 'invalid parameters' error; this episode may not exist? Use 'list episodes' to  see available episodes.")
+                    "Kodi returned an 'invalid parameters' error; this episode may not exist? "\
+                    "Use 'list episodes' to  see available episodes.")
                 return False
             else:
-                raise e
+                raise err

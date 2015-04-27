@@ -17,12 +17,18 @@
 """
 from cement.core import controller
 from lib.podi.rpc import introspect_method
-import json
 
 
 class IntrospectController(controller.CementBaseController):
+    """
+    Sends RPC calls to Kodi to retrieve details about Kodi itself.
+    """
 
     class Meta:
+        """
+        Defines metadata for use by the Cement framework.
+        """
+
         label = 'introspect'
         description = "Show details of Kodi's JSON RPC methods via introspection"
         stacked_on = 'base'
@@ -32,10 +38,18 @@ class IntrospectController(controller.CementBaseController):
 
     @controller.expose(hide=True)
     def default(self):
+        """
+        Prints the help text when the user has supplied no arguments.
+        """
+
         self.app.args.print_help()
 
     @controller.expose()
     def method(self):
+        """
+        Instructs Kodi to describe the RPC method specified by the user.
+        """
+
         method_name = self.app.pargs.positional_arguments[0]
         response = self.app.send_rpc_request(introspect_method(method_name))
         print(self.app.render(

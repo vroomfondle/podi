@@ -1,4 +1,7 @@
 """
+    Defines functions which will generate dicts representing JSON RPC calls to interact with Kodi
+    regarding movies.
+
     Podi, a command-line interface for Kodi.
     Copyright (C) 2015  Peter Frost <slimeypete@gmail.com>
 
@@ -17,27 +20,30 @@
 """
 
 
-def list_movies(filters=[]):
+def list_movies(filters=None):
+    """
+    :returns A dict representing the JSON RPC call to retrieve a list of movies from Kodi's library.
+    """
+
     request = {
         "jsonrpc": "2.0",
         "method": "VideoLibrary.GetMovies",
         "id": "list_movies",
         "params": {
             "properties": [
-              "file", "title", "originaltitle",
-              "genre", "year", "tag",
-              "director", "studio", "cast", "imdbnumber",
-              "mpaa", "playcount", "rating",
-              "runtime", "set", "showlink", "top250",
-              "votes", "sorttitle", "resume", "setid", "dateadded",
-              "streamdetails",
+                "file", "title", "originaltitle",
+                "genre", "year", "tag",
+                "director", "studio", "cast", "imdbnumber",
+                "mpaa", "playcount", "rating",
+                "runtime", "set", "showlink", "top250",
+                "votes", "sorttitle", "resume", "setid", "dateadded",
+                "streamdetails",
             ],
         },
     }
 
     if filters is not None and len(filters) != 0:
         request['params']['filter'] = []
-        print(filters)
         for index in range(len(filters)):
             request['params']['filter'].append(
                 {list(filters[0].keys())[0]: list(filters[0].values())[0], }
@@ -47,6 +53,11 @@ def list_movies(filters=[]):
 
 
 def inspect_movie(movie_id):
+    """
+    :returns A dict representing the JSON RPC call to retrieve details of a specific movie in Kodi's library.
+    :param movie_id The id of the movie to be inspected.
+    """
+
     return {
         "jsonrpc": "2.0",
         "method": "VideoLibrary.GetMovieDetails",
@@ -54,12 +65,12 @@ def inspect_movie(movie_id):
         "params": {
             "movieid": int(movie_id),
             "properties": [
-              "file", "title", "originaltitle",
-              "genre", "year", "tag", "tagline", "writer",
-              "director", "studio", "cast", "imdbnumber", "country",
-              "mpaa", "playcount", "rating", "plot", "plotoutline",
-              "runtime", "set", "showlink", "streamdetails", "top250",
-              "votes", "sorttitle", "resume", "setid", "dateadded",
+                "file", "title", "originaltitle",
+                "genre", "year", "tag", "tagline", "writer",
+                "director", "studio", "cast", "imdbnumber", "country",
+                "mpaa", "playcount", "rating", "plot", "plotoutline",
+                "runtime", "set", "showlink", "streamdetails", "top250",
+                "votes", "sorttitle", "resume", "setid", "dateadded",
             ],
         },
     }

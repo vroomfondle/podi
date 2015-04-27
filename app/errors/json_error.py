@@ -18,8 +18,12 @@
 
 
 class JSONResponseError(Exception):
+    """
+    Represents an error which has been recieved from Kodi's JSON RPC mechanism.
+    """
 
     def __init__(self, json_response):
+        super(JSONResponseError, self).__init__()
         self.error_message = json_response['error']['message']
         self.error_code = json_response['error']['code']
         self.json_response = json_response

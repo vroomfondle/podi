@@ -17,12 +17,18 @@
 """
 from cement.core import controller
 from lib.podi.rpc.library import clean_video_library, clean_audio_library
-import argparse
 
 
 class CleanupController(controller.CementBaseController):
+    """
+    Sends RPC calls to Kodi to tell it to clean up its media libraries.
+    """
 
     class Meta:
+        """
+        Defines metadata for use by the Cement framework.
+        """
+
         label = 'cleanup'
         aliases = ['tidy', 'clean']
         description = 'Clean up media libraries by removing non-existent items'
@@ -31,6 +37,10 @@ class CleanupController(controller.CementBaseController):
 
     @controller.expose(hide=True)
     def default(self):
+        """
+        Instructs Kodi to clean up its media libraries.
+        """
+
         self.app.log.info("Cleaning up video library")
         self.app.send_rpc_request(clean_video_library())
         self.app.log.info("Cleaning up audio library")

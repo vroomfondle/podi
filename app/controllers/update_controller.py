@@ -17,12 +17,18 @@
 """
 from cement.core import controller
 from lib.podi.rpc.library import update_video_library, update_audio_library
-import argparse
 
 
 class UpdateController(controller.CementBaseController):
+    """
+    Sends RPC calls to Kodi to instruct it to update its media libraries.
+    """
 
     class Meta:
+        """
+        Defines metadata for use by the Cement framework.
+        """
+
         label = 'update'
         aliases = ['scan']
         description = 'Update media libraries by scanning for new files'
@@ -31,6 +37,10 @@ class UpdateController(controller.CementBaseController):
 
     @controller.expose(hide=True)
     def default(self):
+        """
+        Instructs Kodi to update its video and audio libraries.
+        """
+
         self.app.log.info("Updating videos")
         self.app.send_rpc_request(update_video_library())
         self.app.log.info("Updating audio")

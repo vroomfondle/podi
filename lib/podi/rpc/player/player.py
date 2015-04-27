@@ -18,6 +18,12 @@
 
 
 def play_file(file_path, resume=False):
+    """
+    :returns A dict representing the JSON RPC call to play a file.
+    :param file_path The full path to the file.
+    :param resume If true, the file will be resumed from the last known time. Default is False.
+    """
+
     return {
         "jsonrpc": "2.0",
         "method": "Player.Open",
@@ -30,6 +36,11 @@ def play_file(file_path, resume=False):
 
 
 def play_movie(movie_id, resume=False):
+    """
+    :returns A dict representing the JSON RPC call to play a movie by id.
+    :param file_path The id of the movie.
+    :param resume If true, the movie will be resumed from the last known time. Default is False.
+    """
     return {
         "jsonrpc": "2.0",
         "method": "Player.Open",
@@ -42,6 +53,11 @@ def play_movie(movie_id, resume=False):
 
 
 def play_episode(episode_id, resume=False):
+    """
+    :returns A dict representing the JSON RPC call to play a TV show episode by id.
+    :param file_path The id of the movie.
+    :param resume If true, the episode will be resumed from the last known time. Default is False.
+    """
     return {
         "jsonrpc": "2.0",
         "method": "Player.Open",
@@ -54,6 +70,10 @@ def play_episode(episode_id, resume=False):
 
 
 def pause_unpause_player(player_id):
+    """
+    :returns A dict representing the JSON RPC call to pause or unpause the media player.
+    :param file_path The id of the player which is to be paused or unpaused.
+    """
     return {
         "jsonrpc": "2.0",
         "method": "Player.PlayPause",
@@ -65,6 +85,10 @@ def pause_unpause_player(player_id):
 
 
 def stop_player(player_id):
+    """
+    :returns A dict representing the JSON RPC call to stop playback via the given media player.
+    :param file_path The id of the player which is to be stopped.
+    """
     return {
         "jsonrpc": "2.0",
         "method": "Player.Stop",
@@ -76,6 +100,10 @@ def stop_player(player_id):
 
 
 def list_active_players():
+    """
+    :returns A dict representing the JSON RPC call to list active media players.
+    """
+
     return {
         "jsonrpc": "2.0",
         "method": "Player.GetActivePlayers",
@@ -84,6 +112,11 @@ def list_active_players():
 
 
 def inspect_player(player_id):
+    """
+    :returns A dict representing the JSON RPC call to retrieve details of the given media player.
+    :param player_id The id of the player to be inspected.
+    """
+
     return {
         "jsonrpc": "2.0",
         "method": "Player.GetProperties",
@@ -91,8 +124,8 @@ def inspect_player(player_id):
         "params": {
             "playerid": int(player_id),
             "properties": [
-              "percentage", "speed", "playlistid", "audiostreams", "position",
-              "repeat", "currentsubtitle", "type", "subtitles", "canseek",
+                "percentage", "speed", "playlistid", "audiostreams", "position",
+                "repeat", "currentsubtitle", "type", "subtitles", "canseek",
                 "time", "totaltime", "currentaudiostream", "live", "subtitleenabled",
             ]
         }
@@ -101,6 +134,12 @@ def inspect_player(player_id):
 
 
 def inspect_current_item(player_id):
+    """
+    :returns A dict representing the JSON RPC call to retrieve details of the media item
+        which is being played by the given player.
+    :param player_id The id of the player to be inspected.
+    """
+
     return {
         "jsonrpc": "2.0",
         "method": "Player.GetItem",
@@ -108,13 +147,18 @@ def inspect_current_item(player_id):
         "params": {
             "playerid": int(player_id),
             "properties": [
-              "file", "title", "originaltitle", "streamdetails",
+                "file", "title", "originaltitle", "streamdetails",
             ]
         }
     }
 
 
 def enable_subtitles(player_id):
+    """
+    :returns A dict representing the JSON RPC call to enable subtitle playback by the given media player.
+    :param player_id The id of the player which is to start displaying subtitles.
+    """
+
     return {
         "jsonrpc": "2.0",
         "method": "Player.SetSubtitle",
@@ -127,6 +171,11 @@ def enable_subtitles(player_id):
 
 
 def disable_subtitles(player_id):
+    """
+    :returns A dict representing the JSON RPC call to disable subtitle playback by the given media player.
+    :param player_id The id of the player which is to stop displaying subtitles.
+    """
+
     return {
         "jsonrpc": "2.0",
         "method": "Player.SetSubtitle",
@@ -139,6 +188,13 @@ def disable_subtitles(player_id):
 
 
 def select_subtitle(subtitle_id, player_id):
+    """
+    :returns A dict representing the JSON RPC call to tell the given media player to
+        switch to the given subtitle track.
+    :param player_id The id of the player which is to display the subtitles.
+    :param subtitle_id The id of the subtitle track to be used.
+    """
+
     return {
         "jsonrpc": "2.0",
         "method": "Player.SetSubtitle",
@@ -151,6 +207,13 @@ def select_subtitle(subtitle_id, player_id):
 
 
 def select_audio(audio_stream_id, player_id):
+    """
+    :returns A dict representing the JSON RPC call to tell the given media player to
+        switch to the given audio track.
+    :param player_id The id of the player which is to display the audios.
+    :param audio_id The id of the audio track to be used.
+    """
+
     return {
         "jsonrpc": "2.0",
         "method": "Player.SetAudioStream",

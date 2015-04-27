@@ -1,4 +1,8 @@
 """
+    Defines functions which will generate dicts representing JSON RPC calls to interact with Kodi
+    regarding TV shows.
+
+
     Podi, a command-line interface for Kodi.
     Copyright (C) 2015  Peter Frost <slimeypete@gmail.com>
 
@@ -17,39 +21,48 @@
 """
 
 
-def list_tv_shows(filters=None):
+def list_tv_shows():
+    """
+    :returns A dict representing the JSON RPC call to retrieve a list of TV shows from Kodi's library.
+    """
+
     return {
         "jsonrpc": "2.0",
         "method": "VideoLibrary.GetTVShows",
         "id": "list_shows",
         "params": {
             "properties": [
-              "file", "title", "originaltitle",
-              "genre", "year", "tag",
-              "studio", "cast", "imdbnumber",
-              "mpaa", "playcount", "rating",
-              "votes", "sorttitle", "dateadded",
-              "lastplayed",
+                "file", "title", "originaltitle",
+                "genre", "year", "tag",
+                "studio", "cast", "imdbnumber",
+                "mpaa", "playcount", "rating",
+                "votes", "sorttitle", "dateadded",
+                "lastplayed",
             ]
         },
     }
 
 
-def list_episodes(tv_show_id=None, filters=None):
+def list_episodes(tv_show_id=None):
+    """
+    :returns A dict representing the JSON RPC call to retrieve a list of TV episodes from Kodi's library.
+    :param tv_show_id If set, Kodi will asked to list episodes belonging to the show with this id.
+    """
+
     request = {
         "jsonrpc": "2.0",
         "method": "VideoLibrary.GetEpisodes",
         "id": "list_episodes_{0}".format(tv_show_id),
         "params": {
             "properties": [
-              "file", "title", "originaltitle",
-              "writer", "director",
-              "cast",
-              "rating", "playcount",
-              "votes", "dateadded",
-              "lastplayed", "resume", "runtime",
-              "productioncode", "firstaired",
-              "season", "episode",
+                "file", "title", "originaltitle",
+                "writer", "director",
+                "cast",
+                "rating", "playcount",
+                "votes", "dateadded",
+                "lastplayed", "resume", "runtime",
+                "productioncode", "firstaired",
+                "season", "episode",
             ],
             "tvshowid": int(tv_show_id),
         },
@@ -60,6 +73,10 @@ def list_episodes(tv_show_id=None, filters=None):
 
 
 def inspect_episode(episode_id):
+    """
+    :returns A dict representing the JSON RPC call to retrieve details regarding the given TV show episode.
+    """
+
     return {
         "jsonrpc": "2.0",
         "method": "VideoLibrary.GetEpisodeDetails",
@@ -76,6 +93,10 @@ def inspect_episode(episode_id):
 
 
 def inspect_tv_show(tv_show_id):
+    """
+    :returns A dict representing the JSON RPC call to retrieve details regarding the given TV show.
+    """
+
     return {
         "jsonrpc": "2.0",
         "method": "VideoLibrary.GetTVShowDetails",
@@ -83,9 +104,9 @@ def inspect_tv_show(tv_show_id):
         "params": {
             "tvshowid": int(tv_show_id),
             "properties": [
-                  "title", "cast", "votes", "mpaa", "rating",
-                  "studio", "genre", "episodeguide", "tag", "year",
-                  "originaltitle", "imdbnumber", "plot", "lastplayed",
+                "title", "cast", "votes", "mpaa", "rating",
+                "studio", "genre", "episodeguide", "tag", "year",
+                "originaltitle", "imdbnumber", "plot", "lastplayed",
             ],
         },
     }

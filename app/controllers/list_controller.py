@@ -16,18 +16,24 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 from cement.core import controller
-from lib.podi.rpc.library import list_movies, inspect_movie, list_tv_shows,\
-    list_episodes
 from lib.podi.util import retrieve_sorted_episodes, retrieve_sorted_shows,\
     retrieve_sorted_movies, align_fields_for_display, format_runtime
 import argparse
 
 
 class ListController(controller.CementBaseController):
+    """
+    Sends RPC calls to Kodi to instruct it to return lists of media items.
+    """
+
     _allowed_video_filters = [
         'genre', 'year', 'actor', 'director', 'studio', 'country', 'set', 'tag']
 
     class Meta:
+        """
+        Defines metadata for use by the Cement framework.
+        """
+
         label = 'list'
         description = 'Retrieve and display lists of media items'
         stacked_on = 'base'
@@ -39,10 +45,18 @@ class ListController(controller.CementBaseController):
 
     @controller.expose(hide=True)
     def default(self):
+        """
+        Prints the help text when the user has provided no arguments.
+        """
+
         self.app.args.print_help()
 
     @controller.expose(aliases=['films', 'movie', 'film'], help='Show a list of every movie in the system.')
     def movies(self):
+        """
+        Sends an RPC call to Kodi to retrieve a list of movies from the library.
+        """
+
         filters = self._parse_video_filters(
             self.app.pargs.positional_arguments[0:])
         field_widths = [('title', 36), ('movieid', 6)]
@@ -57,11 +71,13 @@ class ListController(controller.CementBaseController):
     @controller.expose(aliases=['show', 'tv_show', 'tv_shows', 'tv', 'tvshows', 'tvshow'],
                        help='Show a list of every TV show in the system.')
     def shows(self):
-        filters = self._parse_video_filters(
-            self.app.pargs.positional_arguments[0:])
+        """
+        Sends an RPC call to Kodi to retrieve a list of TV shows from the library.
+        """
+
         field_widths = [('title', 36), ('tvshowid', 6), ]
         shows = []
-        for show in retrieve_sorted_shows(rpc=self.app.send_rpc_request, filters=filters):
+        for show in retrieve_sorted_shows(rpc=self.app.send_rpc_request):
             shows.append(show)
         shows = align_fields_for_display(shows, field_widths)
         print(self.app.render({'shows': shows}, 'tv_show_list.m', None))
@@ -74,7 +90,11 @@ class ListController(controller.CementBaseController):
             'tvepisode'],
         help='Show a list of TV episodes for a particular show. A show id number must be provided (e.g. list episodes 152).')
     def episodes(self):
-        """The user must provide a show id to restrict the list"""
+        """
+        Sends an RPC call to Kodi to retrieve a list of TV episodes from the library.
+        The user must provide a show id to restrict the list.
+        """
+
         episodes = []
         try:
             show_id = self.app.pargs.positional_arguments[0]
@@ -82,9 +102,7 @@ class ListController(controller.CementBaseController):
             self.app.log.error(
                 "You must provide a show id (e.g. list episodes 152). Use 'list shows' to see all shows.")
             return False
-        filters = self._parse_video_filters(
-            self.app.pargs.positional_arguments[1:])
-        for episode in retrieve_sorted_episodes(rpc=self.app.send_rpc_request, tv_show_id=show_id, filters=filters):
+        for episode in retrieve_sorted_episodes(rpc=self.app.send_rpc_request, tv_show_id=show_id):
             episode['runtime'] = format_runtime(episode)
             episodes.append(episode)
         field_widths = [('title', 36), ('episodeid', 6)]
@@ -96,11 +114,14 @@ class ListController(controller.CementBaseController):
             self.app.log.error(
                 "Kodi returned no episodes; this show may not exist? Use 'list shows' to see all shows.")
 
-    def _parse_video_filters(self, args=[]):
-        """Given a list of command-line args, this method turns them into a list of {key: value} filters
+    def _parse_video_filters(self, args=None):
+        """
+        Given a list of command-line args, this method turns them into a list of {key: value} filters
         using alternate indexes, so ['genre', 'horror', 'actor', 'christopher lee'] becomes
         [{'genre': 'horror'}, {'actor': 'christopher lee'}]. It also applies some validation to the filter keys,
-        and raises a ValueError if an invalid filter is specified."""
+        and raises a ValueError if an invalid filter is specified.
+        """
+
         key = ''
         filters = []
         current_filter = {}
@@ -112,7 +133,7 @@ class ListController(controller.CementBaseController):
                     key = ''
                 else:
                     raise ValueError(
-                        "Available filters: {0}".format(', '.join(allowed_keys)))
+                        "Available filters: {0}".format(', '.join(self._allowed_video_filters)))
             else:
                 key = arg
 

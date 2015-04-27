@@ -18,7 +18,10 @@
 
 
 def introspect_method(method_name):
-    """Can be used to retrieve documentation for the given JSON RPC method"""
+    """
+    Can be used to retrieve documentation for the given JSON RPC method
+    :param method_name The fully-qualified name of the method.
+    """
     if method_name == "" or method_name is None:
         raise ValueError("Method name must not be empty")
 
@@ -36,6 +39,9 @@ def introspect_method(method_name):
 
 
 def rpc_version():
+    """
+    :returns A dict representing the JSON RPC call to ask Kodi what RPC version it supports.
+    """
     return {
         "jsonrpc": "2.0",
         "method": "JSONRPC.Version",

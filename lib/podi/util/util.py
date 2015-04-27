@@ -21,9 +21,14 @@ SORT_ASC = 1
 SORT_DESC = 2
 
 
-def retrieve_sorted_episodes(rpc, tv_show_id, sort_field='episodeid', sort_order=SORT_ASC, filters=None):
-    """rpc should be a callable which will send the JSONRPC request to the Kodi server"""
-    episodes = rpc(list_episodes(tv_show_id, filters=filters)).get(
+def retrieve_sorted_episodes(rpc, tv_show_id, sort_field='episodeid'):
+    """
+    Sends a JSON RPC call to retrieve a list of episodes for the given show.
+
+    :param rpc A callable which will send the JSONRPC request to the Kodi server
+    :param tv_show_id The id of the target show
+    """
+    episodes = rpc(list_episodes(tv_show_id)).get(
         'episodes', [])
     for episode in sorted(
             episodes,
@@ -31,8 +36,12 @@ def retrieve_sorted_episodes(rpc, tv_show_id, sort_field='episodeid', sort_order
         yield episode
 
 
-def retrieve_sorted_movies(rpc, sort_field='movieid', sort_order=SORT_ASC, filters=None):
-    """rpc should be a callable which will send the JSONRPC request to the Kodi server"""
+def retrieve_sorted_movies(rpc, sort_field='movieid', filters=None):
+    """
+    Sends a JSON RPC call to retrieve a list of movies.
+
+    :param rpc A callable which will send the JSONRPC request to the Kodi server
+    """
     movies = rpc(list_movies(filters=filters)).get('movies', [])
     for movie in sorted(
             movies,
@@ -40,17 +49,24 @@ def retrieve_sorted_movies(rpc, sort_field='movieid', sort_order=SORT_ASC, filte
         yield movie
 
 
-def retrieve_sorted_shows(rpc, tv_show_id=None, sort_field='tvshowid', sort_order=SORT_ASC, filters=None):
-    """rpc should be a callable which will send the JSONRPC request to the Kodi server. tv_show_id can be used to restrict the list to a single id."""
-    shows = rpc(list_tv_shows(filters=filters)).get('tvshows', [])
+def retrieve_sorted_shows(rpc, tv_show_id=None, sort_field='tvshowid'):
+    """
+    Sends a JSON RPC call to retrieve a list of TV shows.
+
+    :param rpc A callable which will send the JSONRPC request to the Kodi server.
+    :param tv_show_id If set, restrict the list to a single id.
+    """
+    shows = rpc(list_tv_shows()).get('tvshows', [])
     for show in sorted(shows, key=lambda show: show[sort_field]):
         if (tv_show_id is None) or int(show['tvshowid']) == int(tv_show_id):
             yield show
 
 
 def list_to_dicts(key, input_list):
-    """Turns a list of values into a list of single-entry dicts, with the provided key,
-    so that the dicts can be used with pystache. The list is modified in-place."""
+    """
+    Turns a list of values into a list of single-entry dicts, with the provided key,
+    so that the dicts can be used with pystache. The list is modified in-place.
+    """
     for index in range(len(input_list)):
         input_list[index] = {key: input_list[index]}
 
@@ -58,8 +74,9 @@ def list_to_dicts(key, input_list):
 def align_fields_for_display(items, fields):
     """
     Pads/truncates fields in each item to the specified length and puts the result in index ('display'+field_name).
-    fields should be a list of tuples (str,int): (field_name, length).
-    Returns the input list with padded items.
+
+    :param fields A list of tuples (str,int): (field_name, length).
+    :returns the input list with padded items.
     """
     for item in items:
         for (field_name, length) in fields:
@@ -75,10 +92,11 @@ def align_fields_for_display(items, fields):
 def format_runtime(video_item):
     """
     Finds the longest video stream in a given item, and returns a dict:
-      {'total_seconds':n, 'hours':n, 'minutes':n, 'seconds':n, 'str':"{hours}:{minutes}:{seconds}"}.
-    video_item should be an item as returned in response to the JSON defined by the lib.podi.rpc.library methods,
-    and should include a sub-dict called 'streamdetails'.
+        {'total_seconds':n, 'hours':n, 'minutes':n, 'seconds':n, 'str':"{hours}:{minutes}:{seconds}"}.
     If the 'streamdetails' sub-dict is entirely missing, expect to see an IndexError.
+
+    :param video_item An item as returned in response to the JSON defined by the lib.podi.rpc.library methods
+        Should include a sub-dict called 'streamdetails'.
     """
     minutes, seconds = divmod(int(video_item['runtime']), 60)
     hours, minutes = divmod(minutes, 60)
