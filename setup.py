@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
     Podi, a command-line interface for Kodi.
     Copyright (C) 2015  Peter Frost <slimeypete@gmail.com>
@@ -15,7 +16,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-#!/usr/bin/env python3
 from setuptools import setup, find_packages
 
 setup(
