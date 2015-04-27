@@ -25,18 +25,33 @@ import json
 
 
 class PodiBase(controller.CementBaseController):
+    """
+    Acts as the base controller for the Podi Cement application.
+    """
 
     class Meta:
+        """
+        Defines metadata used by the Cement framework
+        """
         label = 'base'
 
     @controller.expose(hide=True, aliases=['run'])
     def default(self):
-        print('Use --help to see a list of commands')
+        """
+        Default behaviour when called without arguments
+        """
+        self.app.log.info('Use --help to see a list of commands')
 
 
 class PodiApplication(foundation.CementApp):
+    """
+    Acts as the base application for the Podi Cement application.
+    """
 
     class Meta:
+        """
+        Defines metadata used by the Cement framework
+        """
         label = 'podi'
         description = 'Podi'
         base_controller = PodiBase
@@ -47,6 +62,7 @@ class PodiApplication(foundation.CementApp):
 
     def __init__(self, **kwargs):
         super(PodiApplication, self).__init__(**kwargs)
+        self.connection = None
 
     def run(self):
         self.connection = HTTPConnection(self.config.get('connection', 'host'),

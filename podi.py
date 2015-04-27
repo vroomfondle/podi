@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 A simple utility to list, play, pause and stop media files in XBMC/Kodi.
-"""
-"""
+
+
     Podi, a command-line interface for Kodi.
     Copyright (C) 2015  Peter Frost <slimeypete@gmail.com>
 
@@ -30,19 +30,19 @@ from cement.core import handler
 
 
 if __name__ == '__main__':
-  app = PodiApplication()
-  handler.register(CleanupController)
-  handler.register(IntrospectController)
-  handler.register(InspectController)
-  handler.register(ListController)
-  handler.register(PlayController)
-  handler.register(PauseController)
-  handler.register(StopController)
-  handler.register(UpdateController)
-  handler.register(ResumeController)
+    app = PodiApplication()
+    handler.register(CleanupController)
+    handler.register(IntrospectController)
+    handler.register(InspectController)
+    handler.register(ListController)
+    handler.register(PlayController)
+    handler.register(PauseController)
+    handler.register(StopController)
+    handler.register(UpdateController)
+    handler.register(ResumeController)
 
-  try:
-      app.setup()
-      app.run()
-  finally:
-      app.close()
+    try:
+        app.setup()
+        app.run()
+    finally:
+        app.close()
