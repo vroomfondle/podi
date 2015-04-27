@@ -22,7 +22,7 @@ setup(
     name="Podi",
     version="0.1",
     author="Peter Frost",
-    author_email="slimeypete@gmail.com"
+    author_email="slimeypete@gmail.com",
     packages=find_packages(),
     install_requires=[
         "cement >= 2.4.0", "pystache >= 0.5.4", "pyyaml >= 3.11", ],
