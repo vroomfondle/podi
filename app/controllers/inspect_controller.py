@@ -39,7 +39,9 @@ class InspectController(controller.CementBaseController):
     def default(self):
         self.app.args.print_help()
 
-    @controller.expose(aliases=['film'], help='Show information about a movie. Provide the id number of the movie (e.g. inspect movie 107).')
+    @controller.expose(
+        aliases=['film'],
+        help='Show information about a movie. Provide the id number of the movie (e.g. inspect movie 107).')
     def movie(self):
         try:
             movie_id = self.app.pargs.positional_arguments[0]
@@ -107,7 +109,8 @@ class InspectController(controller.CementBaseController):
         list_to_dicts(key='writer', input_list=episode_details['writer'])
         print(self.app.render(episode_details, 'episode_details.m', None))
 
-    @controller.expose(help='Show information about the currently-active media player, including available audio and subtitle streams.')
+    @controller.expose(
+        help='Show information about the currently-active media player, including available audio and subtitle streams.')
     def player(self):
         for player in self.app.send_rpc_request(list_active_players()):
             player_details = self.app.send_rpc_request(

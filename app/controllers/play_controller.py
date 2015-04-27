@@ -85,7 +85,9 @@ class PlayController(controller.CementBaseController):
             else:
                 raise e
 
-    @controller.expose(aliases=['subtitles'], help='Show subtitles. You must provide a subtitle stream id (e.g. play subtitles 2). Use "inspect player" to see a list of available streams.')
+    @controller.expose(
+        aliases=['subtitles'],
+        help='Show subtitles. You must provide a subtitle stream id (e.g. play subtitles 2). Use "inspect player" to see a list of available streams.')
     def subtitle(self):
         try:
             subtitle_id = self.app.pargs.positional_arguments[0]
@@ -106,7 +108,9 @@ class PlayController(controller.CementBaseController):
                 else:
                     raise e
 
-    @controller.expose(aliases=['audio_stream'], help='Select an audio stream for the currently-playing video. You must provide a audio stream id (e.g. play audio 2). Use "inspect player" to see a list of available audio streams.')
+    @controller.expose(
+        aliases=['audio_stream'],
+        help='Select an audio stream for the currently-playing video. You must provide a audio stream id (e.g. play audio 2). Use "inspect player" to see a list of available audio streams.')
     def audio(self):
         try:
             audio_id = self.app.pargs.positional_arguments[0]

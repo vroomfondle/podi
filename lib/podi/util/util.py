@@ -63,7 +63,7 @@ def align_fields_for_display(items, fields):
     """
     for item in items:
         for (field_name, length) in fields:
-            if type(item[field_name]) is str or type(item[field_name]) is str:
+            if isinstance(item[field_name], str) or isinstance(item[field_name], str):
                 field_value = item[field_name]
             else:
                 field_value = str(item[field_name])
@@ -73,10 +73,10 @@ def align_fields_for_display(items, fields):
 
 
 def format_runtime(video_item):
-    """ 
-    Finds the longest video stream in a given item, and returns a dict: 
+    """
+    Finds the longest video stream in a given item, and returns a dict:
       {'total_seconds':n, 'hours':n, 'minutes':n, 'seconds':n, 'str':"{hours}:{minutes}:{seconds}"}.
-    video_item should be an item as returned in response to the JSON defined by the lib.podi.rpc.library methods, 
+    video_item should be an item as returned in response to the JSON defined by the lib.podi.rpc.library methods,
     and should include a sub-dict called 'streamdetails'.
     If the 'streamdetails' sub-dict is entirely missing, expect to see an IndexError.
     """

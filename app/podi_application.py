@@ -57,7 +57,7 @@ class PodiApplication(foundation.CementApp):
     def send_rpc_request(self, request):
         """
         Sends an RPC request to the remote host.
-        :param dict request 
+        :param dict request
         """
         headers = {"Content-type": "application/json"}
         self.log.debug("Sending RPC request: {0}".format(request))

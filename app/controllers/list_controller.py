@@ -66,8 +66,13 @@ class ListController(controller.CementBaseController):
         shows = align_fields_for_display(shows, field_widths)
         print(self.app.render({'shows': shows}, 'tv_show_list.m', None))
 
-    @controller.expose(aliases=['tv_episodes', 'tvepisodes', 'episode', 'tvepisode'],
-                       help='Show a list of TV episodes for a particular show. A show id number must be provided (e.g. list episodes 152).')
+    @controller.expose(
+        aliases=[
+            'tv_episodes',
+            'tvepisodes',
+            'episode',
+            'tvepisode'],
+        help='Show a list of TV episodes for a particular show. A show id number must be provided (e.g. list episodes 152).')
     def episodes(self):
         """The user must provide a show id to restrict the list"""
         episodes = []
@@ -92,8 +97,8 @@ class ListController(controller.CementBaseController):
                 "Kodi returned no episodes; this show may not exist? Use 'list shows' to see all shows.")
 
     def _parse_video_filters(self, args=[]):
-        """Given a list of command-line args, this method turns them into a list of {key: value} filters 
-        using alternate indexes, so ['genre', 'horror', 'actor', 'christopher lee'] becomes 
+        """Given a list of command-line args, this method turns them into a list of {key: value} filters
+        using alternate indexes, so ['genre', 'horror', 'actor', 'christopher lee'] becomes
         [{'genre': 'horror'}, {'actor': 'christopher lee'}]. It also applies some validation to the filter keys,
         and raises a ValueError if an invalid filter is specified."""
         key = ''

@@ -43,7 +43,7 @@ def list_episodes(tv_show_id=None, filters=None):
         "params": {
             "properties": [
               "file", "title", "originaltitle",
-              "writer",  "director",
+              "writer", "director",
               "cast",
               "rating", "playcount",
               "votes", "dateadded",
