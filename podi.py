@@ -29,19 +29,20 @@ from app.controllers import ListController, PlayController,\
 from cement.core import handler
 
 
-app = PodiApplication()
-handler.register(CleanupController)
-handler.register(IntrospectController)
-handler.register(InspectController)
-handler.register(ListController)
-handler.register(PlayController)
-handler.register(PauseController)
-handler.register(StopController)
-handler.register(UpdateController)
-handler.register(ResumeController)
+if __name__ == '__main__':
+  app = PodiApplication()
+  handler.register(CleanupController)
+  handler.register(IntrospectController)
+  handler.register(InspectController)
+  handler.register(ListController)
+  handler.register(PlayController)
+  handler.register(PauseController)
+  handler.register(StopController)
+  handler.register(UpdateController)
+  handler.register(ResumeController)
 
-try:
-    app.setup()
-    app.run()
-finally:
-    app.close()
+  try:
+      app.setup()
+      app.run()
+  finally:
+      app.close()
