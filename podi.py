@@ -23,9 +23,9 @@ A simple utility to list, play, pause and stop media files in XBMC/Kodi.
 
 from app import PodiApplication
 from app.controllers import ListController, PlayController,\
-  IntrospectController, PauseController, StopController,\
-  CleanupController, UpdateController, InspectController,\
-  ResumeController
+    IntrospectController, PauseController, StopController,\
+    CleanupController, UpdateController, InspectController,\
+    ResumeController
 from cement.core import handler
 
 
@@ -41,9 +41,7 @@ handler.register(UpdateController)
 handler.register(ResumeController)
 
 try:
-  app.setup()
-  app.run()
+    app.setup()
+    app.run()
 finally:
-  app.close()
-
-
+    app.close()
