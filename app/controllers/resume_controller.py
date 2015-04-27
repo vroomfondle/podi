@@ -61,7 +61,7 @@ class ResumeController(controller.CementBaseController):
 
         try:
             movie_id = self.app.pargs.positional_arguments[0]
-        except IndexError as err:
+        except IndexError:
             self.app.log.error(
                 'You must provide a movie id number, e.g.: play movie 127')
             return False
@@ -69,7 +69,7 @@ class ResumeController(controller.CementBaseController):
         try:
             movie = [movie_details for movie_details in self.app.send_rpc_request(list_movies())['movies']
                      if str(movie_details['movieid']) == movie_id][0]
-        except IndexError as err:
+        except IndexError:
             self.app.log.error("Movie {0} not found.".format(movie_id))
             return False
         self.app.log.info(

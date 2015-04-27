@@ -15,4 +15,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-from .util import *
+from .util import retrieve_sorted_episodes, retrieve_sorted_movies,\
+    retrieve_sorted_shows, list_to_dicts,\
+    align_fields_for_display, format_runtime
