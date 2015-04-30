@@ -21,7 +21,7 @@ You need to enable the Kodi web interface before you can use Podi.
 See http://kodi.wiki/view/Web_interface
 
 ##Configuration
-Put the following in $HOME/podi.conf, subsituting values
+Put the following in $HOME/podi.conf, substituting values
 as necessary to represent your Kodi web interface details.
 
 
@@ -47,3 +47,5 @@ as necessary to represent your Kodi web interface details.
     ./podi.py play movie 123
     ./podi.py play episode 255
 
+## License
+Podi is GPL-licensed; see LICENCE.
