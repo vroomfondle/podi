@@ -71,15 +71,18 @@ class PlayController(controller.CementBaseController):
                 'You must provide a movie id number, e.g.: play movie 127')
             return False
 
+        self.app.log.info("Playing movie {0})".format(
+            movie_id))
         try:
-            movie = [movie_details for movie_details in self.app.send_rpc_request(list_movies())['movies']
-                     if str(movie_details['movieid']) == movie_id][0]
-        except IndexError:
-            self.app.log.error("Movie {0} not found.".format(movie_id))
-            return False
-        self.app.log.info("Playing movie {0}: {1} ({2})".format(
-            movie_id, movie['label'], movie['file']))
-        self.app.send_rpc_request(play_movie(movie_id))
+            self.app.send_rpc_request(play_movie(movie_id))
+        except JSONResponseError as err:
+            if err.error_code == -32602:
+                self.app.log.error(
+                    "Kodi returned an 'invalid parameters' error; this movie may not exist? "
+                    "Use 'list episodes' to  see available episodes.")
+                return False
+            else:
+                raise err
 
     @controller.expose(aliases=['tvepisode', 'tv_episode'],
                        help='Play a TV episode. You must provide an episode id number, e.g.: play episode 1340')
