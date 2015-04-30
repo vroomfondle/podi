@@ -18,7 +18,7 @@
 from cement.core import controller
 from lib.podi.rpc.library.movies import list_movies
 from lib.podi.rpc.player import play_episode, play_movie
-from app.errors import JSONResponseError
+from app.errors import JSONResponseError, NoMediaError, MissingArgumentError
 import argparse
 
 
@@ -62,16 +62,14 @@ class ResumeController(controller.CementBaseController):
         try:
             movie_id = self.app.pargs.positional_arguments[0]
         except IndexError:
-            self.app.log.error(
+            raise MissingArgumentError(
                 'You must provide a movie id number, e.g.: play movie 127')
-            return False
 
         try:
             movie = [movie_details for movie_details in self.app.send_rpc_request(list_movies())['movies']
                      if str(movie_details['movieid']) == movie_id][0]
         except IndexError:
-            self.app.log.error("Movie {0} not found.".format(movie_id))
-            return False
+            raise NoMediaError("Movie {0} not found.".format(movie_id))
         self.app.log.info(
             "Playing/resuming movie {0}: {1} ({2})".format(movie_id, movie['label'], movie['file']))
         self.app.send_rpc_request(play_movie(movie_id=movie_id, resume=True))
@@ -90,18 +88,16 @@ class ResumeController(controller.CementBaseController):
         try:
             episode_id = self.app.pargs.positional_arguments[0]
         except IndexError as err:
-            self.app.log.error(
+            raise MissingArgumentError(
                 'You must provide an episode id number, e.g.: play movie 127')
-            return False
         self.app.log.info("Playing/resuming episode {0}".format(episode_id))
         try:
             self.app.send_rpc_request(
                 play_episode(episode_id=episode_id, resume=True))
         except JSONResponseError as err:
             if err.error_code == -32602:
-                self.app.log.error(
+                raise NoMediaError(
                     "Kodi returned an 'invalid parameters' error; this episode may not exist? "\
                     "Use 'list episodes' to  see available episodes.")
-                return False
             else:
                 raise err

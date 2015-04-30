@@ -19,7 +19,7 @@ from cement.core import controller
 from lib.podi.rpc.library.movies import list_movies
 from lib.podi.rpc.player import play_movie, play_episode,\
     enable_subtitles, select_subtitle, list_active_players, select_audio, pause_unpause_player
-from app.errors import JSONResponseError
+from app.errors import JSONResponseError, NoMediaError, MissingArgumentError
 import argparse
 
 
@@ -53,9 +53,8 @@ class PlayController(controller.CementBaseController):
             self.app.log.info("Pausing/unpausing {0}".format(player['type']))
             self.app.send_rpc_request(pause_unpause_player(player['playerid']))
         if len(players) == 0:
-            self.app.log.error(
+            raise MissingArgumentError(
                 "No media item was specified for playback, and there are no currently-playing media items to pause/unpause.")
-            self.app.args.print_help()
 
     @controller.expose(aliases=['movies', 'film', 'films'],
                        help='Play a movie. You must provide a movie id number, e.g.: play movie 127')
@@ -67,9 +66,8 @@ class PlayController(controller.CementBaseController):
         try:
             movie_id = self.app.pargs.positional_arguments[0]
         except IndexError:
-            self.app.log.error(
+            raise MissingArgumentError(
                 'You must provide a movie id number, e.g.: play movie 127')
-            return False
 
         self.app.log.info("Playing movie {0}".format(
             movie_id))
@@ -77,10 +75,9 @@ class PlayController(controller.CementBaseController):
             self.app.send_rpc_request(play_movie(movie_id))
         except JSONResponseError as err:
             if err.error_code == -32602:
-                self.app.log.error(
+                raise NoMediaError(
                     "Kodi returned an 'invalid parameters' error; this movie may not exist? "
                     "Use 'list episodes' to  see available episodes.")
-                return False
             else:
                 raise err
 
@@ -94,18 +91,16 @@ class PlayController(controller.CementBaseController):
         try:
             tv_episode_id = self.app.pargs.positional_arguments[0]
         except IndexError as err:
-            self.app.log.error(
+            raise MissingArgumentError(
                 'You must provide an episode id number, e.g.: play movie 127')
-            return False
         self.app.log.info("Playing episode {0}".format(tv_episode_id))
         try:
             self.app.send_rpc_request(play_episode(tv_episode_id))
         except JSONResponseError as err:
             if err.error_code == -32602:
-                self.app.log.error(
+                raise NoMediaError(
                     "Kodi returned an 'invalid parameters' error; this episode may not exist? "
                     "Use 'list episodes' to  see available episodes.")
-                return False
             else:
                 raise err
 
@@ -121,10 +116,9 @@ class PlayController(controller.CementBaseController):
         try:
             subtitle_id = self.app.pargs.positional_arguments[0]
         except IndexError as err:
-            self.app.log.error(
+            raise MissingArgumentError(
                 "You must provide a subtitle id number, e.g.: play subtitle 2. Use \"inspect player\""
                 " to see a list of available subtitle streams.")
-            return False
         for player in self.app.send_rpc_request(list_active_players()):
             try:
                 self.app.send_rpc_request(enable_subtitles(player['playerid']))
@@ -132,10 +126,9 @@ class PlayController(controller.CementBaseController):
                     select_subtitle(subtitle_id, player['playerid']))
             except JSONResponseError as err:
                 if err.error_code == -32602:
-                    self.app.log.error(
+                   raise NoMediaError(
                         "Kodi returned an 'invalid parameters' error; this stream may not exist? Use "
                         "\"inspect player\" to see a list of available streams.")
-                    return False
                 else:
                     raise err
 
@@ -151,19 +144,17 @@ class PlayController(controller.CementBaseController):
         try:
             audio_id = self.app.pargs.positional_arguments[0]
         except IndexError as err:
-            self.app.log.error(
+            raise MissingArgumentError(
                 "You must provide a audio id number, e.g.: play audio 2. Use \"inspect player\" to see "
                 "a list of available audio streams.")
-            return False
         for player in self.app.send_rpc_request(list_active_players()):
             try:
                 self.app.send_rpc_request(
                     select_audio(audio_id, player['playerid']))
             except JSONResponseError as err:
                 if err.error_code == -32602:
-                    self.app.log.error(
+                    raise NoMediaError(
                         "Kodi returned an 'invalid parameters' error; this stream may not exist? Use "
                         "\"inspect player\" to see a list of available streams.")
-                    return False
                 else:
                     raise err

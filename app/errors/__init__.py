@@ -16,3 +16,5 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 from .json_error import JSONResponseError
+from .library_errors import NoMediaError
+from .argument_errors import MissingArgumentError

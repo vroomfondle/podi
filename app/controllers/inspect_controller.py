@@ -20,7 +20,7 @@ from lib.podi.rpc.library import inspect_movie, inspect_episode,\
     inspect_tv_show
 from lib.podi.rpc.player import inspect_player, list_active_players, inspect_current_item
 from lib.podi.util import retrieve_sorted_episodes, list_to_dicts
-from app.errors import JSONResponseError
+from app.errors import JSONResponseError, NoMediaError, MissingArgumentError
 import argparse
 
 
@@ -60,16 +60,14 @@ class InspectController(controller.CementBaseController):
         try:
             movie_id = self.app.pargs.positional_arguments[0]
         except IndexError as err:
-            self.app.log.error("You must provide a movie id number")
-            return False
+            raise MissingArgumentError("You must provide a movie id number")
         try:
             movie_details = self.app.send_rpc_request(
                 inspect_movie(movie_id))['moviedetails']
         except JSONResponseError as err:
             if err.error_code == -32602:
-                self.app.log.error(
+                raise NoMediaError(
                     "Kodi returned an 'invalid parameters' error; this movie may not exist?")
-                return False
             else:
                 raise err
         list_to_dicts(key='tag', input_list=movie_details['tag'])
@@ -88,16 +86,14 @@ class InspectController(controller.CementBaseController):
         try:
             tv_show_id = self.app.pargs.positional_arguments[0]
         except IndexError as err:
-            self.app.log.error("You must provide a show id number")
-            return False
+            raise MissingArgumentError("You must provide a show id number")
         try:
             tv_show_details = self.app.send_rpc_request(
                 inspect_tv_show(tv_show_id))['tvshowdetails']
         except JSONResponseError as err:
             if err.error_code == -32602:
-                self.app.log.error(
+                raise NoMediaError(
                     "Kodi returned an 'invalid parameters' error; this tv_show may not exist?")
-                return False
             else:
                 raise err
         list_to_dicts(key='tag', input_list=tv_show_details['tag'])
@@ -116,16 +112,14 @@ class InspectController(controller.CementBaseController):
         try:
             episode_id = self.app.pargs.positional_arguments[0]
         except IndexError as err:
-            self.app.log.error("You must provide a episode id number")
-            return False
+            raise MissingArgumentError("You must provide a episode id number")
         try:
             episode_details = self.app.send_rpc_request(
                 inspect_episode(episode_id))['episodedetails']
         except JSONResponseError as err:
             if err.error_code == -32602:
-                self.app.log.error(
+                raise NoMediaError(
                     "Kodi returned an 'invalid parameters' error; this episode may not exist?")
-                return False
             else:
                 raise err
         list_to_dicts(key='writer', input_list=episode_details['writer'])

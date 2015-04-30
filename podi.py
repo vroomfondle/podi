@@ -43,6 +43,12 @@ if __name__ == '__main__':
 
     try:
         app.setup()
-        app.run()
+        try:
+            app.run()
+        except Exception as err:
+            if app.pargs.debug:
+                raise err
+            else:
+                app.log.error(err)
     finally:
         app.close()
