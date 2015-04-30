@@ -19,6 +19,8 @@ from cement.core import controller
 from lib.podi.util import retrieve_sorted_episodes, retrieve_sorted_shows,\
     retrieve_sorted_movies, align_fields_for_display, format_runtime
 import argparse
+from ..errors.library_errors import NoMediaError
+from ..errors.argument_errors import MissingArgumentError
 
 
 class ListController(controller.CementBaseController):
@@ -99,7 +101,7 @@ class ListController(controller.CementBaseController):
         try:
             show_id = self.app.pargs.positional_arguments[0]
         except IndexError:
-            self.app.log.error(
+            raise MissingArgumentError(
                 "You must provide a show id (e.g. list episodes 152). Use 'list shows' to see all shows.")
             return False
         for episode in retrieve_sorted_episodes(rpc=self.app.send_rpc_request, tv_show_id=show_id):
@@ -111,7 +113,7 @@ class ListController(controller.CementBaseController):
             print(self.app.render({'episodes': episodes},
                                   'episode_list.m', None))
         else:
-            self.app.log.error(
+            raise NoMediaError(
                 "Kodi returned no episodes; this show may not exist? Use 'list shows' to see all shows.")
 
     def _parse_video_filters(self, args=None):

@@ -71,7 +71,7 @@ class PlayController(controller.CementBaseController):
                 'You must provide a movie id number, e.g.: play movie 127')
             return False
 
-        self.app.log.info("Playing movie {0})".format(
+        self.app.log.info("Playing movie {0}".format(
             movie_id))
         try:
             self.app.send_rpc_request(play_movie(movie_id))
